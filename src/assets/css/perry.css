@@ -60,6 +60,58 @@ body::-webkit-scrollbar-thumb {
 /* 主框架 */
 .perry {
   position: relative;
+  overflow: hidden;
+}
+
+/* 统一背景图片样式 */
+.perryBg {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media (max-width: 560px) {
+  .perryBg {
+    width: 100%;
+    height: 40%;
+    top: 0;
+  }
+}
+
+/* 统一标题样式 */
+.mainContentTitle {
+  font-size: var(--titleSize);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* 统一按钮样式 */
+.loadMore {
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px 50px 15px;
+  border: 1px solid black;
+  font-size: 1.3rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.loadMore:hover {
+  color: white;
+  box-shadow: inset 0 -100px 0 black;
+}
+
+/* 统一间距规则 */
+.sectionPadding {
+  padding: 5rem 1rem;
+}
+
+@media (max-width: 560px) {
+  .sectionPadding {
+    padding: 3rem 1rem;
+  }
 }
 
 /* 首页内容 */

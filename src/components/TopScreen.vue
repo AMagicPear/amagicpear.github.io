@@ -96,13 +96,7 @@ onMounted(() => {
 }
 
 .topBg {
-  position: absolute;
-  right: 0;
-  width: 50%;
-  height: 100%;
-  background: url("/images/bg.webp") fixed center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url("/images/bg.webp");
 }
 
 .SubTitle {

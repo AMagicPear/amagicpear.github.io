@@ -142,6 +142,19 @@ const projectList: project[] = [
       '尾声'
     ],
     techStack: ['Ableton Live','电子音乐'],
+  },
+  {
+    name: '火生一',
+    text: 'Unity Engine 游戏项目',
+    nb: ['Unity', 'C#'],
+    url: '',
+    img: '/images/projects/火生一.jpg',
+    content: '这是一个使用Unity Engine制作的游戏项目。',
+    features: [
+      '游戏特性1',
+      '游戏特性2',
+    ],
+    techStack: ['Unity', 'C#'], // [TODO] 可以跟前面的nb合并
   }
 ]
 </script>
@@ -247,19 +260,19 @@ const projectList: project[] = [
 .perry3ContentBtn {
   display: inline-block;
   cursor: pointer;
-  padding: 0.75rem 1.5rem; /* 增加内边距 */
+  padding: 0.75rem 1.5rem;
   border: 1px solid #3182ce;
+  background-color: #3182ce;
+  color: white;
   font-size: 1rem;
-  color: #3182ce;
-  margin-top: 1.5rem; /* 减少顶部间距 */
-  border-radius: 0.75rem; /* 圆角更小 */
+  border-radius: 0.5rem;
   transition: all 0.3s ease;
+  margin-top: 1rem; /* 增加间距 */
 }
 
 .perry3ContentBtn:hover {
-  background: #3182ce;
-  color: white;
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12); /* 更明显的悬停效果 */
+  background-color: #2c5282;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .perry3LoadMore {

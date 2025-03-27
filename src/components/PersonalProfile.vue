@@ -58,9 +58,7 @@ import abilities from '@/assets/data/abilities.json';
 }
 
 .profile__title {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 3rem;
+  /* 统一标题样式 */
 }
 
 .profile__content {
