@@ -7,10 +7,9 @@
 
 <style>
   .left-card {
-    width: 50%;
-    height: 50%;
-    background-color: rgb(144, 211, 122);
-    color: #fff;
+    height: 100%;
+    background-color: rgb(160, 255, 36);
+    color: black;
     display: flex;
     flex-direction: column;
     justify-content: center;
