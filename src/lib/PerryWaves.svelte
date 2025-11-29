@@ -1,4 +1,4 @@
-<!-- Powered by https://github.com/ZTMYO/NanoFlow | MIT License -->
+<!-- Modified from https://github.com/ZTMYO/NanoFlow | MIT License -->
 <script module>
   import nanoflowCfg from "../assets/nanoflow.json";
 
@@ -119,8 +119,7 @@
 </script>
 
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { tick } from "svelte";
+  import { onMount, tick } from "svelte";
 
   let svg: SVGSVGElement;
   let particles: Particle[] = [];
@@ -198,10 +197,7 @@
   });
 </script>
 
-<svg
-  bind:this={svg}
-  xmlns="http://www.w3.org/2000/svg"
->
+<svg bind:this={svg} xmlns="http://www.w3.org/2000/svg">
   {#each particles as particle}
     <circle
       id={particle.id}
