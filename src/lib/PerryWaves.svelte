@@ -1,7 +1,14 @@
 <!-- Powered by https://github.com/ZTMYO/NanoFlow | MIT License -->
 <script module>
   import nanoflowCfg from "../assets/nanoflow.json";
-  type ParticleData = (typeof nanoflowCfg.particles)[number];
+  
+  interface ParticleData {
+    x: number;
+    y: number;
+    size: number;
+    color: string;
+  }
+
   class Particle {
     cx: number;
     cy: number;
