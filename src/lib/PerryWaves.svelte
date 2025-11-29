@@ -1,7 +1,7 @@
 <!-- Powered by https://github.com/ZTMYO/NanoFlow | MIT License -->
 <script module>
   import nanoflowCfg from "../assets/nanoflow.json";
-  
+
   interface ParticleData {
     x: number;
     y: number;
@@ -101,8 +101,12 @@
           if (f > 0.5 && f <= 1.5) f = 0.5;
           let vx = f * Math.cos(angle);
           let vy = f * Math.sin(angle);
-          this.vx -= vx * this.maxPushForce * 1.5 + ((this.baseX - this.x) * this.elasticityFactor) / 250;
-          this.vy -= vy * this.maxPushForce * 1.5 + ((this.baseY - this.y) * this.elasticityFactor) / 250;
+          this.vx -=
+            vx * this.maxPushForce * 1.5 +
+            ((this.baseX - this.x) * this.elasticityFactor) / 250;
+          this.vy -=
+            vy * this.maxPushForce * 1.5 +
+            ((this.baseY - this.y) * this.elasticityFactor) / 250;
         }
       }
 
@@ -117,24 +121,27 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { tick } from "svelte";
-  
+
   let svg: SVGSVGElement;
   let particles: Particle[] = [];
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
   let particleElements: { [key: string]: SVGCircleElement } = {};
 
+  // SVG缩放因子，与CSS中的scale值保持一致
+  const scaleFactor = 1.4;
+
   onMount(async () => {
-    svg.setAttribute('width', nanoflowCfg.cwidth.toString());
-    svg.setAttribute('height', nanoflowCfg.cheight.toString());
+    svg.setAttribute("width", nanoflowCfg.cwidth.toString());
+    svg.setAttribute("height", nanoflowCfg.cheight.toString());
 
     // 创建粒子
     particles = nanoflowCfg.particles.map((p, index) => new Particle(p, index));
-    
+
     // 等待DOM更新，确保粒子元素已创建
     await tick();
-    
+
     // 初始化粒子元素引用
-    particles.forEach(particle => {
+    particles.forEach((particle) => {
       const element = svg.querySelector(`#${particle.id}`);
       if (element) {
         particleElements[particle.id] = element as SVGCircleElement;
@@ -143,8 +150,9 @@
 
     svg.addEventListener("mousemove", (e: MouseEvent) => {
       const rect = svg.getBoundingClientRect();
-      const cx = e.clientX - rect.left;
-      const cy = e.clientY - rect.top;
+      // 计算原始鼠标坐标，并除以缩放因子以匹配SVG内部坐标系统
+      const cx = (e.clientX - rect.left) / scaleFactor;
+      const cy = (e.clientY - rect.top) / scaleFactor;
       if (mouse.x < 0 || mouse.y < 0) {
         mouse.vx = 0;
         mouse.vy = 0;
@@ -169,22 +177,20 @@
     function animate() {
       let disperseFactor = 1;
       let scatterStrength = 0;
-      
+
       if (mouse.speed > 220) {
         scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
       }
-      
-      particles.forEach(particle => {
+
+      particles.forEach((particle) => {
         particle.update(mouse, disperseFactor, scatterStrength);
         const element = particleElements[particle.id];
         if (element) {
-          element.setAttribute('cx', particle.x.toString());
-          element.setAttribute('cy', particle.y.toString());
-          element.setAttribute('r', particle.size.toString());
-          element.setAttribute('fill', particle.color);
+          element.setAttribute("cx", particle.x.toString());
+          element.setAttribute("cy", particle.y.toString());
         }
       });
-      
+
       requestAnimationFrame(animate);
     }
 
@@ -192,7 +198,10 @@
   });
 </script>
 
-<svg bind:this={svg} xmlns="http://www.w3.org/2000/svg">
+<svg
+  bind:this={svg}
+  xmlns="http://www.w3.org/2000/svg"
+>
   {#each particles as particle}
     <circle
       id={particle.id}
@@ -206,6 +215,9 @@
 
 <style>
   svg {
-    transform: translateX(10%);
+    position: absolute;
+    top: 1vh;
+    right: -360px;
+    scale: 1.4;
   }
 </style>
