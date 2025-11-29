@@ -16,9 +16,7 @@
     </div>
   </section>
   <section id="sub-content">
-    {#each Array.from({ length: 10 }, (_, i) => i) as item}
-      <h2>{item}</h2>
-    {/each}
+    <h2>Sub Content</h2>
   </section>
 </main>
 

@@ -121,7 +121,7 @@
     let particles = nanoflowCfg.particles.map((p) => new Particle(p));
     let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
 
-    canvas.addEventListener("mousemove", function (e: MouseEvent) {
+    canvas.addEventListener("mousemove", (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       const cx = e.clientX - rect.left;
       const cy = e.clientY - rect.top;
@@ -138,7 +138,7 @@
       mouse.y = cy;
     });
 
-    canvas.addEventListener("mouseleave", function () {
+    canvas.addEventListener("mouseleave", () => {
       mouse.x = -1000;
       mouse.y = -1000;
       mouse.vx = 0;
