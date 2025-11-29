@@ -4,6 +4,7 @@
   import PerryWaves from "./lib/PerryWaves.svelte";
 </script>
 
+<div class="background"></div>
 <main>
   <section id="top-showcase">
     <PerryHeader />
@@ -50,5 +51,20 @@
     /* width: 300px; */
     /* height: 200px; */
     z-index: 3;
+  }
+
+  .background {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: 128px;
+    background-repeat: repeat;
+    background-image: url("/rR6HYXBrMmX4cRpXfXUOvpvpB0.png");
+    opacity: 0.06;
+    border-radius: 0;
+    z-index: 400;
   }
 </style>

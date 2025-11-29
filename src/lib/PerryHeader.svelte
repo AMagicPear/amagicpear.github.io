@@ -35,7 +35,7 @@
 
 <style lang="scss">
   #header-container {
-    position: absolute;
+    position: fixed;
     top: 30px;
     left: 0;
     width: 100%;
@@ -45,7 +45,7 @@
     justify-content: center;
     align-items: space-between;
     padding-inline: 20px;
-    z-index: 100;
+    z-index: 50;
 
     #subcontainer {
       width: 55%;
