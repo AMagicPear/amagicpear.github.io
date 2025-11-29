@@ -1,5 +1,10 @@
+@font-face {
+  font-family: alimama;
+  src: url('./assets/AlimamaShuHeiTi-Bold.woff2');
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: alimama;
   font-weight: 400;
   color-scheme: light dark;
   font-synthesis: none;

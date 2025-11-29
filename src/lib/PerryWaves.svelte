@@ -1,12 +1,12 @@
 <!-- Modified from https://github.com/ZTMYO/NanoFlow | MIT License -->
 <script module>
-  import nanoflowCfg from "../assets/nanoflow.json";
+  import nanoflowCfg from "../assets/simplified_nanoflow.json";
 
   interface ParticleData {
     x: number;
     y: number;
     size: number;
-    color: string;
+    color: [number, number, number];
   }
 
   class Particle {
@@ -19,7 +19,7 @@
     vx: number;
     vy: number;
     size: number;
-    color: string;
+    color: [number, number, number];
     offsetX: number;
     offsetY: number;
     destX: number;
@@ -134,7 +134,7 @@
     svg.setAttribute("height", nanoflowCfg.cheight.toString());
 
     // 创建粒子
-    particles = nanoflowCfg.particles.map((p, index) => new Particle(p, index));
+    particles = nanoflowCfg.particles.map((p, index) => new Particle(p as ParticleData, index));
 
     // 等待DOM更新，确保粒子元素已创建
     await tick();
@@ -204,7 +204,7 @@
       cx={particle.x}
       cy={particle.y}
       r={particle.size}
-      fill={particle.color}
+      fill={`rgb(${particle.color.join(",")})`}
     />
   {/each}
 </svg>
@@ -215,5 +215,6 @@
     top: 1vh;
     right: -360px;
     scale: 1.4;
+    cursor:cell;
   }
 </style>
