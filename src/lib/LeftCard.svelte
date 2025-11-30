@@ -43,9 +43,9 @@
     left: 16px;
     width: 100%;
     height: 100%;
-    z-index: -1;
     border: 1px solid rgb(160, 255, 36);
     pointer-events: none;
+    transition: border-color 0.3s ease-in-out;
   }
 
   .left-card {
@@ -65,6 +65,9 @@
     &:hover {
       background-color: rgb(184, 255, 91);
       translate: 0px -2px;
+      .left-card-offset {
+        border-color: rgb(184, 255, 91);
+      }
     }
   }
 
