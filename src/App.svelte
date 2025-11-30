@@ -1,7 +1,7 @@
 <script lang="ts">
-  import PerryHeader from "./lib/PerryHeader.svelte";
-  import LeftCard from "./lib/LeftCard.svelte";
-  import PerryWaves from "./lib/PerryWaves.svelte";
+  import PerryHeader from "./components/PerryHeader.svelte";
+  import LeftCard from "./components/LeftCard.svelte";
+  import PerryWaves from "./components/PerryWaves.svelte";
 </script>
 
 <div class="background"></div>
@@ -62,7 +62,7 @@
     height: 100vh;
     background-size: 128px;
     background-repeat: repeat;
-    background-image: url("/rR6HYXBrMmX4cRpXfXUOvpvpB0.png");
+    background-image: url("./assets/rR6HYXBrMmX4cRpXfXUOvpvpB0.png");
     opacity: 0.06;
     border-radius: 0;
     z-index: 400;

@@ -1,5 +1,5 @@
 <!-- Modified from https://github.com/ZTMYO/NanoFlow | MIT License -->
-<script module>
+<script module lang="ts">
   import nanoflowCfg from "../assets/simplified_nanoflow.json";
 
   interface ParticleData {
@@ -9,42 +9,33 @@
     color: [number, number, number];
   }
 
-  class Particle {
+  class Particle implements ParticleData {
     cx: number;
     cy: number;
     baseX: number;
     baseY: number;
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-    size: number;
-    color: [number, number, number];
-    offsetX: number;
-    offsetY: number;
-    destX: number;
-    destY: number;
-    elasticityFactor: number;
-    maxPushForce: number;
+    x: number = 0;
+    y: number = 0;
+    vx: number = 0;
+    vy: number = 0;
+    size: number = 0;
+    color: [number, number, number] = [0, 0, 0];
+    offsetX: number = 0;
+    offsetY: number = 0;
+    destX: number = 0;
+    destY: number = 0;
+    elasticityFactor: number = nanoflowCfg.elasticityFactor;
+    maxPushForce: number = nanoflowCfg.maxPushForce;
     id: string;
 
     constructor(data: ParticleData, index: number) {
+      Object.assign(this, data);
       this.cx = data.x;
       this.cy = data.y;
       this.baseX = data.x;
       this.baseY = data.y;
-      this.x = data.x;
-      this.y = data.y;
-      this.vx = 0;
-      this.vy = 0;
-      this.size = data.size;
-      this.color = data.color;
-      this.offsetX = 0;
-      this.offsetY = 0;
       this.destX = data.x;
       this.destY = data.y;
-      this.elasticityFactor = nanoflowCfg.elasticityFactor;
-      this.maxPushForce = nanoflowCfg.maxPushForce;
       this.id = `particle-${index}`;
     }
 
@@ -55,7 +46,7 @@
         vx: number;
         vy: number;
         speed: number;
-      } | null,
+      },
       disperseFactor: number,
       scatterStrength: number
     ) {
@@ -88,8 +79,8 @@
         (disperseFactor <= 1.01 && scatterStrength < 0.05 && mouse) ||
         (scatterStrength > 0 && mouse);
       if (enableEffect) {
-        let mx = mouse!.x;
-        let my = mouse!.y;
+        let mx = mouse.x;
+        let my = mouse.y;
         let dist2 =
           (this.x - mx) * (this.x - mx) + (this.y - my) * (this.y - my);
         let minDist = 18 + Math.min(mouse!.speed * 2.5, 120);

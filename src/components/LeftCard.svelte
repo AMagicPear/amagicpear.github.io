@@ -1,23 +1,28 @@
 <script lang="ts">
+  import EmailIcon from "../assets/icons/email.svg";
+  import GithubIcon from "../assets/icons/github.svg";
+  import BilibiliIcon from "../assets/icons/bilibili.svg";
+  import NeteaseMusicIcon from "../assets/icons/netease-music.svg";
+
   const contact = [
     {
       name: "Email",
-      icon: "email",
+      icon: EmailIcon,
       link: "mailto:AMagicPear@outlook.com",
     },
     {
       name: "Github",
-      icon: "github",
+      icon: GithubIcon,
       link: "https://github.com/AMagicPear",
     },
     {
       name: "Bilibili",
-      icon: "bilibili",
+      icon: BilibiliIcon,
       link: "https://space.bilibili.com/52833994",
     },
     {
       name: "Netease Music",
-      icon: "netease-music",
+      icon: NeteaseMusicIcon,
       link: "https://music.163.com/#/artist?id=34318509",
     },
   ];
@@ -30,7 +35,7 @@
   <div class="contact-list">
     {#each contact as item}
       <a href={item.link} target="_blank">
-        <img src={`/icons/${item.icon}.svg`} alt={item.name} />
+        <img src={item.icon} alt={item.name} />
       </a>
     {/each}
   </div>
