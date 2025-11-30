@@ -67,4 +67,16 @@
     border-radius: 0;
     z-index: 400;
   }
+
+  footer {
+    position: fixed;
+    left: 2vw;
+    bottom: 2px;
+    z-index: 50;
+    p {
+      color: rgb(210, 246, 210);
+      font-size: 14px;
+      line-height: 1rem;
+    }
+  }
 </style>

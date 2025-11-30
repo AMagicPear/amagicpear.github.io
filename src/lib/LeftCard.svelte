@@ -49,7 +49,7 @@
   }
 
   .left-card {
-    width: 400px;
+    width: calc(240px + 6vw + 2vh);
     background-color: rgb(160, 255, 36);
     color: black;
     display: flex;

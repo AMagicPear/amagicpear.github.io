@@ -121,20 +121,23 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
 
+  // SVG缩放因子，与CSS中的scale值保持一致
+  const scaleFactor = 1.4;
+  const hasMouse = window.matchMedia("(pointer: fine)").matches;
+
   let svg: SVGSVGElement;
   let particles: Particle[] = [];
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
   let particleElements: { [key: string]: SVGCircleElement } = {};
-
-  // SVG缩放因子，与CSS中的scale值保持一致
-  const scaleFactor = 1.4;
 
   onMount(async () => {
     svg.setAttribute("width", nanoflowCfg.cwidth.toString());
     svg.setAttribute("height", nanoflowCfg.cheight.toString());
 
     // 创建粒子
-    particles = nanoflowCfg.particles.map((p, index) => new Particle(p as ParticleData, index));
+    particles = nanoflowCfg.particles.map(
+      (p, index) => new Particle(p as ParticleData, index)
+    );
 
     // 等待DOM更新，确保粒子元素已创建
     await tick();
@@ -193,7 +196,9 @@
       requestAnimationFrame(animate);
     }
 
-    animate();
+    if (hasMouse) {
+      animate();
+    }
   });
 </script>
 
@@ -212,9 +217,20 @@
 <style>
   svg {
     position: absolute;
-    top: 1vh;
-    right: -360px;
+    top: calc(36vh - 250px);
+    right: calc(2.65vw - 395.1px);
     scale: 1.4;
-    cursor:cell;
+
+    @media (pointer: fine) {
+      cursor: cell;
+    }
+
+    @media screen and (min-width: 1260px) {
+      right: calc(20vw - 638px);
+    }
+
+    @media screen and (max-width: 1068px){
+      right: calc(60vw - 1007.6px);
+    }
   }
 </style>
