@@ -117,7 +117,9 @@
   const hasMouse = window.matchMedia("(pointer: fine)").matches;
 
   let svg: SVGSVGElement;
-  let particles: Particle[] = [];
+  let particles: Particle[] = nanoflowCfg.particles.map(
+    (p, index) => new Particle(p as ParticleData, index)
+  );
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
   let particleElements: { [key: string]: SVGCircleElement } = {};
 
@@ -125,69 +127,58 @@
     svg.setAttribute("width", nanoflowCfg.cwidth.toString());
     svg.setAttribute("height", nanoflowCfg.cheight.toString());
 
-    // 创建粒子
-    particles = nanoflowCfg.particles.map(
-      (p, index) => new Particle(p as ParticleData, index)
-    );
-
     // 等待DOM更新，确保粒子元素已创建
     await tick();
 
-    // 初始化粒子元素引用
-    particles.forEach((particle) => {
-      const element = svg.querySelector(`#${particle.id}`);
-      if (element) {
-        particleElements[particle.id] = element as SVGCircleElement;
-      }
-    });
-
-    svg.addEventListener("mousemove", (e: MouseEvent) => {
-      const rect = svg.getBoundingClientRect();
-      // 计算原始鼠标坐标，并除以缩放因子以匹配SVG内部坐标系统
-      const cx = (e.clientX - rect.left) / scaleFactor;
-      const cy = (e.clientY - rect.top) / scaleFactor;
-      if (mouse.x < 0 || mouse.y < 0) {
+    if (hasMouse) {
+      // 初始化粒子元素引用
+      particles.forEach((particle) => {
+        const element = svg.querySelector(`#${particle.id}`);
+        if (element) {
+          particleElements[particle.id] = element as SVGCircleElement;
+        }
+      });
+      svg.addEventListener("mousemove", (e: MouseEvent) => {
+        const rect = svg.getBoundingClientRect();
+        // 计算原始鼠标坐标，并除以缩放因子以匹配SVG内部坐标系统
+        const cx = (e.clientX - rect.left) / scaleFactor;
+        const cy = (e.clientY - rect.top) / scaleFactor;
+        if (mouse.x < 0 || mouse.y < 0) {
+          mouse.vx = 0;
+          mouse.vy = 0;
+          mouse.speed = 0;
+        } else {
+          mouse.vx = cx - mouse.x;
+          mouse.vy = cy - mouse.y;
+          mouse.speed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
+        }
+        mouse.x = cx;
+        mouse.y = cy;
+      });
+      svg.addEventListener("mouseleave", () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
         mouse.vx = 0;
         mouse.vy = 0;
         mouse.speed = 0;
-      } else {
-        mouse.vx = cx - mouse.x;
-        mouse.vy = cy - mouse.y;
-        mouse.speed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
-      }
-      mouse.x = cx;
-      mouse.y = cy;
-    });
-
-    svg.addEventListener("mouseleave", () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
-      mouse.vx = 0;
-      mouse.vy = 0;
-      mouse.speed = 0;
-    });
-
-    function animate() {
-      let disperseFactor = 1;
-      let scatterStrength = 0;
-
-      if (mouse.speed > 220) {
-        scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
-      }
-
-      particles.forEach((particle) => {
-        particle.update(mouse, disperseFactor, scatterStrength);
-        const element = particleElements[particle.id];
-        if (element) {
-          element.setAttribute("cx", particle.x.toString());
-          element.setAttribute("cy", particle.y.toString());
-        }
       });
+      function animate() {
+        let disperseFactor = 1;
+        let scatterStrength = 0;
 
-      requestAnimationFrame(animate);
-    }
+        if (mouse.speed > 220) {
+          scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
+        }
 
-    if (hasMouse) {
+        particles.forEach((particle) => {
+          particle.update(mouse, disperseFactor, scatterStrength);
+          const element = particleElements[particle.id];
+          element?.setAttribute("cx", String(particle.x));
+          element?.setAttribute("cy", String(particle.y));
+        });
+
+        requestAnimationFrame(animate);
+      }
       animate();
     }
   });
@@ -197,8 +188,6 @@
   {#each particles as particle}
     <circle
       id={particle.id}
-      cx={particle.x}
-      cy={particle.y}
       r={particle.size}
       fill={`rgb(${particle.color.join(",")})`}
     />
@@ -220,7 +209,7 @@
       right: calc(20vw - 638px);
     }
 
-    @media screen and (max-width: 1068px){
+    @media screen and (max-width: 1068px) {
       right: calc(60vw - 1007.6px);
     }
   }
