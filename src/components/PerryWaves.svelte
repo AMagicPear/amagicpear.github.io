@@ -101,6 +101,14 @@
         }
       }
 
+      // 限制粒子速度，防止异常大值导致粒子飞散
+      const maxSpeed = 10;
+      const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+      if (speed > maxSpeed) {
+        this.vx = (this.vx / speed) * maxSpeed;
+        this.vy = (this.vy / speed) * maxSpeed;
+      }
+      
       this.vx *= 0.7;
       this.vy *= 0.7;
       this.x += this.vx;
@@ -146,7 +154,8 @@
     } else {
       mouse.vx = cx - mouse.x;
       mouse.vy = cy - mouse.y;
-      mouse.speed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
+      // 限制鼠标速度，防止窗口切换等操作导致的异常大值
+      mouse.speed = Math.min(Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy), 500);
     }
     mouse.x = cx;
     mouse.y = cy;
@@ -158,6 +167,7 @@
     mouse.vx = 0;
     mouse.vy = 0;
     mouse.speed = 0;
+    scatterStrength = 0; // 鼠标离开时重置散射强度
   };
 
   onMount(() => {
@@ -171,14 +181,38 @@
     updateParticles(particles);
     if (!hasMouse) return;
 
+    // 处理页面可见性变化
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        mouse.x = -1000;
+        mouse.y = -1000;
+        mouse.vx = 0;
+        mouse.vy = 0;
+        mouse.speed = 0;
+        scatterStrength = 0;
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     function animate() {
       if (mouse.speed > 220) {
         scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
+      } else {
+        // 添加scatterStrength衰减机制，防止粒子一直处于散射状态
+        scatterStrength *= 0.9;
       }
       updateParticles(particles);
       requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
+
+    // 清理事件监听
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      svg.removeEventListener('mousemove', handleMouseMove);
+      svg.removeEventListener('mouseleave', handleMouseLeave);
+    };
   });
 </script>
 

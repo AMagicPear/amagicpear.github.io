@@ -28,7 +28,7 @@
     z-index: 50;
     backdrop-filter: blur(4px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.25);
     .subcontainer {
       width: 92%;
       max-width: 1080px;
