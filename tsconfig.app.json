@@ -17,6 +17,9 @@
     "checkJs": true,
     "moduleDetection": "force",
     "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
 }

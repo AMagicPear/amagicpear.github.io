@@ -1,5 +1,5 @@
 <script lang="ts">
-  import LostInLightRoundWhite from "../assets/icons/LostInLightRoundWhite.svg";
+  import LostInLightRoundWhite from "@/assets/icons/LostInLightRoundWhite.svg";
 </script>
 
 <div id="header-container">

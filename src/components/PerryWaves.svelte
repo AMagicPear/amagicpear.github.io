@@ -1,6 +1,6 @@
 <!-- Modified from https://github.com/ZTMYO/NanoFlow | MIT License -->
 <script module lang="ts">
-  import nanoflowCfg from "../assets/simplified_nanoflow.json";
+  import nanoflowCfg from "@/assets/simplified_nanoflow.json";
 
   interface ParticleData {
     x: number;
@@ -110,7 +110,7 @@
 </script>
 
 <script lang="ts">
-  import { onMount, tick } from "svelte";
+  import { onMount } from "svelte";
 
   // SVG缩放因子，与CSS中的scale值保持一致
   const scaleFactor = 1.4;
@@ -134,12 +134,33 @@
     });
   };
 
-  onMount(async () => {
-    svg.setAttribute("width", nanoflowCfg.cwidth.toString());
-    svg.setAttribute("height", nanoflowCfg.cheight.toString());
+  const handleMouseMove = (e: MouseEvent) => {
+    const rect = svg.getBoundingClientRect();
+    // 计算原始鼠标坐标，并除以缩放因子以匹配SVG内部坐标系统
+    const cx = (e.clientX - rect.left) / scaleFactor;
+    const cy = (e.clientY - rect.top) / scaleFactor;
+    if (mouse.x < 0 || mouse.y < 0) {
+      mouse.vx = 0;
+      mouse.vy = 0;
+      mouse.speed = 0;
+    } else {
+      mouse.vx = cx - mouse.x;
+      mouse.vy = cy - mouse.y;
+      mouse.speed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
+    }
+    mouse.x = cx;
+    mouse.y = cy;
+  };
 
-    // 等待DOM更新，确保粒子元素已创建
-    await tick();
+  const handleMouseLeave = () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+    mouse.vx = 0;
+    mouse.vy = 0;
+    mouse.speed = 0;
+  };
+
+  onMount(() => {
     // 初始化粒子元素引用
     particles.forEach((particle) => {
       const element = svg.querySelector(`#${particle.id}`);
@@ -149,31 +170,6 @@
     });
     updateParticles(particles);
     if (!hasMouse) return;
-    // 仅在有鼠标时添加事件监听器
-    svg.addEventListener("mousemove", (e: MouseEvent) => {
-      const rect = svg.getBoundingClientRect();
-      // 计算原始鼠标坐标，并除以缩放因子以匹配SVG内部坐标系统
-      const cx = (e.clientX - rect.left) / scaleFactor;
-      const cy = (e.clientY - rect.top) / scaleFactor;
-      if (mouse.x < 0 || mouse.y < 0) {
-        mouse.vx = 0;
-        mouse.vy = 0;
-        mouse.speed = 0;
-      } else {
-        mouse.vx = cx - mouse.x;
-        mouse.vy = cy - mouse.y;
-        mouse.speed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
-      }
-      mouse.x = cx;
-      mouse.y = cy;
-    });
-    svg.addEventListener("mouseleave", () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
-      mouse.vx = 0;
-      mouse.vy = 0;
-      mouse.speed = 0;
-    });
 
     function animate() {
       if (mouse.speed > 220) {
@@ -182,12 +178,19 @@
       updateParticles(particles);
       requestAnimationFrame(animate);
     }
-
     requestAnimationFrame(animate);
   });
 </script>
 
-<svg bind:this={svg} xmlns="http://www.w3.org/2000/svg">
+<svg
+  bind:this={svg}
+  width={nanoflowCfg.cwidth}
+  height={nanoflowCfg.cheight}
+  on:mousemove={handleMouseMove}
+  on:mouseleave={handleMouseLeave}
+  role="presentation"
+  xmlns="http://www.w3.org/2000/svg"
+>
   {#each particles as particle}
     <circle
       id={particle.id}

@@ -1,13 +1,14 @@
 <script lang="ts">
-  import PerryHeader from "./components/PerryHeader.svelte";
-  import LeftCard from "./components/LeftCard.svelte";
-  import PerryWaves from "./components/PerryWaves.svelte";
-  import EmailIcon from "./assets/icons/email.svg";
-  import GithubIcon from "./assets/icons/github.svg";
-  import BilibiliIcon from "./assets/icons/bilibili.svg";
-  import NeteaseMusicIcon from "./assets/icons/netease-music.svg";
+  import PerryHeader from "@/components/PerryHeader.svelte";
+  import LeftCard from "@/components/LeftCard.svelte";
+  import PerryWaves from "@/components/PerryWaves.svelte";
+  import EmailIcon from "@/assets/icons/email.svg";
+  import GithubIcon from "@/assets/icons/github.svg";
+  import BilibiliIcon from "@/assets/icons/bilibili.svg";
+  import NeteaseMusicIcon from "@/assets/icons/netease-music.svg";
   import Typed from "typed.js";
   import { onMount } from "svelte";
+  import MyWorks from "@/components/MyWorks.svelte";
 
   const contact = [
     {
@@ -87,6 +88,7 @@
     </div>
   </section>
   <section id="sub-content">
+    <MyWorks />
     <h2>网站建设中……</h2>
   </section>
 </main>
