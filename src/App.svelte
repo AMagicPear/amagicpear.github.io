@@ -42,7 +42,7 @@
     "独立音乐人",
     "平面设计师",
     "技术美术学习ing",
-    "游戏制作人"
+    "游戏制作人",
   ];
   let typed: Typed;
   let typedElement: HTMLSpanElement;
@@ -120,6 +120,10 @@
     > :global(*) {
       pointer-events: all;
     }
+    @media screen and (max-width: 768px) {
+      scale: 0.8;
+    }
+
     .contact-list {
       display: flex;
       flex-direction: row;
