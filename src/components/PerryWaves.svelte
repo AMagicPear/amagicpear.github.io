@@ -206,7 +206,7 @@
     }
 
     @media screen and (min-width: 1260px) {
-      right: calc(20vw - 638px);
+      right: calc(16vw - 450px);
     }
 
     @media screen and (max-width: 1068px) {

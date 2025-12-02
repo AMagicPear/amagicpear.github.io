@@ -1,75 +1,74 @@
 <script lang="ts">
-  import { animate, hover } from "motion";
-  import { onMount } from "svelte";
-
-  let subcontainer: HTMLElement;
-
-  onMount(() => {
-    hover(subcontainer, (element) => {
-      animate(
-        element,
-        {
-          scale: 1.08,
-          transform: "translateY(10px) scale(1.1)",
-        },
-        { type: "spring", bounce: 0.4, duration: 0.6 }
-      );
-      return () =>
-        animate(
-          element,
-          {
-            scale: 1,
-            transform: "translateY(0px) scale(1)",
-          },
-          { type: "spring", bounce: 0.7, duration: 1 }
-        );
-    });
-  });
+  import LostInLightRoundWhite from "../assets/icons/LostInLightRoundWhite.svg";
 </script>
 
 <div id="header-container">
-  <div id="subcontainer" bind:this={subcontainer}>
-    <h1>AMagicPear&nbsp;&nbsp;|&nbsp;&nbsp;<span class="cn">一只会魔法的梨</span></h1>
+  <div class="subcontainer">
+    <div class="left">
+      <img src={LostInLightRoundWhite} alt="" />
+      <span>一只会魔法的梨<span class="title-en">&nbsp;|&nbsp;AMagicPear</span></span>
+    </div>
+    <div class="right">
+      <span class="active">展示页</span>
+      <span style="color: rgba(255, 255, 255, 0.5);">更多页面建设中</span>
+    </div>
   </div>
 </div>
 
 <style lang="scss">
   #header-container {
     position: fixed;
-    top: 30px;
+    top: 0;
     left: 0;
     width: 100%;
     height: 60px;
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: space-between;
-    padding-inline: 20px;
+    align-items: center;
     z-index: 50;
-
-    #subcontainer {
-      width: 55%;
-      height: 100%;
-      min-width: 500px;
-      backdrop-filter: blur(2px);
-      background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+    .subcontainer {
+      width: 92%;
+      max-width: 1080px;
       display: flex;
-      flex-direction: row;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      transform: translateY(0px) scale(1);
-      will-change: transform;
-      cursor: none;
+      color: #fff;
+      .left,
+      .right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: calc(1.2vw + 5px);
+      }
 
-      h1 {
-        font-size: 28px;
+      .left {
+        img {
+          width: 32px;
+          height: 32px;
+        }
+        span {
+          font-size: 19px;
+        }
+        pointer-events: none;
         user-select: none;
-        text-shadow: 0 0 10px rgba(255, 162, 13, 0.5);
-        color: white;
-        .cn {
-          letter-spacing: 2px;
+      }
+
+      .right {
+        span {
+          font-size: 16px;
+          &.active {
+            border-bottom: 2px solid #fff;
+          }
         }
       }
+    }
+  }
+  @media screen and (max-width: 538px) {
+    .title-en {
+      display: none;
     }
   }
 </style>
