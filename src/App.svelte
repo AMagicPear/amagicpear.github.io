@@ -58,6 +58,8 @@
       typed.destroy();
     };
   });
+
+  let isShowWaves = true;
 </script>
 
 <div class="background"></div>
@@ -65,7 +67,9 @@
   <section id="top-showcase">
     <PerryHeader />
     <div class="background-element">
-      <PerryWaves />
+      {#if isShowWaves}
+        <PerryWaves />
+      {/if}
     </div>
     <div class="floating-element">
       <LeftCard cardTitle="你好！👋">
