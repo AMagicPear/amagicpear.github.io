@@ -5,7 +5,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 -->
 
 <script module lang="ts">
-  import nanoflowCfg from "@/assets/simplified_nanoflow.json";
+  import nanoflowCfg from "@/data/simplified_nanoflow.json";
 
   interface ParticleData {
     x: number;
