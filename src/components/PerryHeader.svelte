@@ -6,7 +6,10 @@
   <div class="subcontainer">
     <div class="left">
       <img src={LostInLightRoundWhite} alt="" />
-      <span>一只会魔法的梨<span class="title-en">&nbsp;|&nbsp;AMagicPear</span></span>
+      <span
+        >一只会魔法的梨<span class="title-en">&nbsp;|&nbsp;AMagicPear</span
+        ></span
+      >
     </div>
     <div class="right">
       <a href="/"><span class="active">展示页</span></a>
@@ -61,7 +64,7 @@
           font-size: 16px;
           position: relative;
           &::after {
-            content: '';
+            content: "";
             position: absolute;
             bottom: -2px;
             left: 50%;
@@ -81,7 +84,7 @@
             }
           }
         }
-        
+
         @keyframes expand {
           from {
             transform: translateX(-50%) scaleX(0);

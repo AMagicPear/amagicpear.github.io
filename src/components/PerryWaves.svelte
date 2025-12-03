@@ -48,7 +48,7 @@
         speed: number;
       },
       disperseFactor: number,
-      scatterStrength: number
+      scatterStrength: number,
     ) {
       if (scatterStrength > 0.01) {
         let explosionFactor = Math.min(scatterStrength * 2.5, 6);
@@ -108,7 +108,7 @@
         this.vx = (this.vx / speed) * maxSpeed;
         this.vy = (this.vy / speed) * maxSpeed;
       }
-      
+
       this.vx *= 0.7;
       this.vy *= 0.7;
       this.x += this.vx;
@@ -128,10 +128,11 @@
 
   let svg: SVGSVGElement;
   let particles: Particle[] = nanoflowCfg.particles.map(
-    (p, index) => new Particle(p as ParticleData, index)
+    (p, index) => new Particle(p as ParticleData, index),
   );
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
   let particleElements: { [key: string]: SVGCircleElement } = {};
+  let isIntersecting = true;
 
   const updateParticles = (particles: Particle[]) => {
     particles.forEach((particle) => {
@@ -155,7 +156,10 @@
       mouse.vx = cx - mouse.x;
       mouse.vy = cy - mouse.y;
       // 限制鼠标速度，防止窗口切换等操作导致的异常大值
-      mouse.speed = Math.min(Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy), 500);
+      mouse.speed = Math.min(
+        Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy),
+        500,
+      );
     }
     mouse.x = cx;
     mouse.y = cy;
@@ -170,6 +174,32 @@
     scatterStrength = 0; // 鼠标离开时重置散射强度
   };
 
+  function animate() {
+    if (mouse.speed > 220) {
+      scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
+    } else {
+      // 添加scatterStrength衰减机制，防止粒子一直处于散射状态
+      scatterStrength *= 0.9;
+    }
+    updateParticles(particles);
+    // 仅当处于视口时才继续请求下一帧动画
+    if (isIntersecting) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    // 仅监听SVG元素，若不是则报错
+    console.assert(entries[0].target.isSameNode(svg));
+    if (entries[0].isIntersecting) {
+      isIntersecting = true;
+      requestAnimationFrame(animate);
+    } else {
+      handleMouseLeave();
+      isIntersecting = false;
+    }
+  });
+
   onMount(() => {
     // 初始化粒子元素引用
     particles.forEach((particle) => {
@@ -180,38 +210,15 @@
     });
     updateParticles(particles);
     if (!hasMouse) return;
+    observer.observe(svg);
 
-    // 处理页面可见性变化
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        mouse.x = -1000;
-        mouse.y = -1000;
-        mouse.vx = 0;
-        mouse.vy = 0;
-        mouse.speed = 0;
-        scatterStrength = 0;
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    function animate() {
-      if (mouse.speed > 220) {
-        scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
-      } else {
-        // 添加scatterStrength衰减机制，防止粒子一直处于散射状态
-        scatterStrength *= 0.9;
-      }
-      updateParticles(particles);
-      requestAnimationFrame(animate);
-    }
     requestAnimationFrame(animate);
 
     // 清理事件监听
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      svg.removeEventListener('mousemove', handleMouseMove);
-      svg.removeEventListener('mouseleave', handleMouseLeave);
+      observer.disconnect();
+      svg.removeEventListener("mousemove", handleMouseMove);
+      svg.removeEventListener("mouseleave", handleMouseLeave);
     };
   });
 </script>

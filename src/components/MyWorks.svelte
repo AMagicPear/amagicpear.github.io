@@ -1,11 +1,11 @@
 <script lang="ts">
-  let works = [0, 1, 2];
+  let works = [0, 1, 2, 3];
 </script>
 
-<h2>我的作品</h2>
+<h2 data-aos="fade-up">我的作品</h2>
 <div class="works-container">
   {#each works as work}
-    <div class="work-item"></div>
+    <div class="work-item" data-aos="flip-up"></div>
   {/each}
 </div>
 

@@ -13,6 +13,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@tsconfig/svelte": "^5.0.6",
+    "@types/aos": "^3.0.7",
     "@types/node": "^24.10.1",
     "gh-pages": "^6.3.0",
     "sass-embedded": "^1.93.3",
@@ -28,6 +29,7 @@
   },
   "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a",
   "dependencies": {
+    "aos": "3.0.0-beta.6",
     "motion": "^12.23.24",
     "typed.js": "^2.1.0"
   }
