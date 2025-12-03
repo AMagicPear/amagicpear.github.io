@@ -33,27 +33,17 @@
     },
   ];
 
-  const strings = [
-    "一只会魔法的梨",
-    "AMagicPear",
-    "一只INFP小蝴蝶",
-    "一名「六边形战士」",
-    "数字媒体技术专业大学生",
-    "准人工智能专业研究生",
-    "独立音乐人",
-    "平面设计师",
-    "技术美术学习ing",
-    "游戏制作人",
-  ];
   let typed: Typed;
   let typedElement: HTMLSpanElement;
   onMount(() => {
-    typed = new Typed(typedElement, {
-      strings: strings,
-      typeSpeed: 90,
-      backSpeed: 60,
-      backDelay: 1000,
-      loop: true,
+    import("./data/top_descriptions.json").then((strings) => {
+      typed = new Typed(typedElement, {
+        strings: strings.default,
+        typeSpeed: 90,
+        backSpeed: 60,
+        backDelay: 1000,
+        loop: true,
+      });
     });
     return () => {
       typed.destroy();

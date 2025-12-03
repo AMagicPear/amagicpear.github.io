@@ -1,5 +1,6 @@
 <script lang="ts">
   import LostInLightRoundWhite from "@/assets/icons/LostInLightRoundWhite.svg";
+  import { _ } from "svelte-i18n";
 </script>
 
 <div id="header-container">
@@ -12,8 +13,8 @@
       >
     </div>
     <div class="right">
-      <a href="/"><span class="active">展示页</span></a>
-      <span style="color: rgba(255, 255, 255, 0.5);">更多页面建设中</span>
+      <a href="/"><span class="active">{$_("pages.showcase")}</span></a>
+      <span style="color: rgba(255, 255, 255, 0.5);">{$_("pages.constructing")}</span>
     </div>
   </div>
 </div>
