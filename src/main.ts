@@ -1,5 +1,5 @@
 import { mount } from 'svelte'
-import './app.css'
+import './app.scss'
 import App from './App.svelte'
 import AOS from 'aos'
 import 'aos/dist/aos.css'

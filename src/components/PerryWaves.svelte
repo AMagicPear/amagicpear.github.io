@@ -1,4 +1,9 @@
-<!-- Modified from https://github.com/ZTMYO/NanoFlow | MIT License -->
+<!--
+@component
+Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
+| MIT License
+-->
+
 <script module lang="ts">
   import nanoflowCfg from "@/assets/simplified_nanoflow.json";
 
@@ -123,6 +128,7 @@
   // SVG缩放因子，与CSS中的scale值保持一致
   const scaleFactor = 1.4;
   const hasMouse = window.matchMedia("(pointer: fine)").matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const disperseFactor = 1;
   let scatterStrength = 0;
 
@@ -190,7 +196,7 @@
 
   const observer = new IntersectionObserver((entries) => {
     // 仅监听SVG元素，若不是则报错
-    console.assert(entries[0].target.isSameNode(svg));
+    console.assert(entries.length === 1 && entries[0].target.isSameNode(svg));
     if (entries[0].isIntersecting) {
       isIntersecting = true;
       requestAnimationFrame(animate);
@@ -209,7 +215,7 @@
       }
     });
     updateParticles(particles);
-    if (!hasMouse) return;
+    if (!hasMouse || prefersReducedMotion) return;
     observer.observe(svg);
 
     requestAnimationFrame(animate);
@@ -227,8 +233,8 @@
   bind:this={svg}
   width={nanoflowCfg.cwidth}
   height={nanoflowCfg.cheight}
-  on:mousemove={handleMouseMove}
-  on:mouseleave={handleMouseLeave}
+  onmousemove={handleMouseMove}
+  onmouseleave={handleMouseLeave}
   role="presentation"
   xmlns="http://www.w3.org/2000/svg"
 >

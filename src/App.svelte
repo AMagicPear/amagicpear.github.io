@@ -63,10 +63,10 @@
   let isShowWaves = true;
 </script>
 
+<PerryHeader />
 <div class="background"></div>
 <main>
   <section id="top-showcase">
-    <PerryHeader />
     <div class="background-element">
       {#if isShowWaves}
         <PerryWaves />
@@ -124,6 +124,7 @@
     transform: translate(-50%, -50%);
     z-index: 3;
     pointer-events: none;
+    transition: scale 0.2s ease-in-out;
     > :global(*) {
       pointer-events: all;
     }
@@ -170,6 +171,12 @@
     opacity: 0.06;
     border-radius: 0;
     z-index: 400;
+  }
+
+  #sub-content {
+    @media screen and (min-width: 1020px) {
+      padding-inline: 12vw;
+    }
   }
 
   footer {

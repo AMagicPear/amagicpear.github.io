@@ -1,0 +1,14 @@
+[
+  {
+    "title": "燧火启明录",
+    "classify": "教育游戏",
+    "description": "一款面向小学高年级学生的中国古代物理探索之旅。",
+    "link": "https://www.bilibili.com/video/BV16pgBz7EMW"
+  },
+  {
+    "title": "Echoesphere",
+    "classify": "现场互动游戏",
+    "description": "NJUPT本科毕设作品。探索一种由人工智能驱动的、结合实体的按钮装置的新型游戏交互方式。",
+    "link": "https://github.com/AMagicPear/Echoesphere"
+  }
+]

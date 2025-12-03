@@ -32,13 +32,17 @@
     backdrop-filter: blur(4px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(0, 0, 0, 0.25);
+    padding-inline: 4vw;
+    @media screen and (min-width: 768px) {
+      padding-inline: 14vw;
+    }
     .subcontainer {
-      width: 92%;
-      max-width: 1080px;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       color: #fff;
+
       .left,
       .right {
         display: flex;
