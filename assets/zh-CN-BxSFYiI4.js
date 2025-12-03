@@ -1,0 +1,1 @@
+const e={showcase:`展示页`,constructing:`更多页面建设中`};var t={pages:e};export{t as default,e as pages};

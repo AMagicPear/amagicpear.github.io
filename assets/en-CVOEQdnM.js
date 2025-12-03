@@ -1,0 +1,1 @@
+const e={showcase:`Showcase`,constructing:`Under construction`};var t={pages:e};export{t as default,e as pages};
