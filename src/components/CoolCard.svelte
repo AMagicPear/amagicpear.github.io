@@ -1,9 +1,19 @@
 <script lang="ts">
-  let card: HTMLDivElement;
-  let lightEffect: HTMLDivElement;
+  let cardTransform: string = $state<string>(
+    "rotateX(0) rotateY(0) translateZ(0)"
+  );
+  let lightTransform: string = $state<string>("translate(0, 0)");
   let cardContainer: HTMLDivElement;
+  let props = $props<{
+    cardTitle: string;
+    description: string;
+    classify: string;
+    link: string;
+  }>();
 
-  let props = $props<{ cardTitle: string, description: string, classify: string, link: string }>();
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
   // 获取卡片中心点
   const getCenter = (element: HTMLElement) => {
@@ -22,25 +32,18 @@
     const rotateY = (mouseX / cardContainer.offsetWidth) * 5; // 最大旋转5度
     const rotateX = -(mouseY / cardContainer.offsetHeight) * 5;
     // 应用3D变换
-    card.style.transform = `
-                  rotateX(${rotateX}deg)
-                  rotateY(${rotateY}deg)
-                  translateZ(10px)
-              `;
+    cardTransform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
 
     // 移动光效
     const lightX = (mouseX / cardContainer.offsetWidth) * 100;
     const lightY = (mouseY / cardContainer.offsetHeight) * 100;
-
-    lightEffect.style.transform = `
-                  translate(${lightX}px, ${lightY}px)
-              `;
+    lightTransform = `translate(${lightX}px, ${lightY}px)`;
   };
 
   // 处理鼠标离开
   const handleMouseLeave = () => {
-    card.style.transform = "rotateX(0) rotateY(0) translateZ(0)";
-    lightEffect.style.transform = "translate(0, 0)";
+    cardTransform = "rotateX(0) rotateY(0) translateZ(0)";
+    lightTransform = "translate(0, 0)";
   };
 </script>
 
@@ -49,11 +52,11 @@
   role="listitem"
   data-aos="flip-up"
   bind:this={cardContainer}
-  onmousemove={handleMouseMove}
-  onmouseleave={handleMouseLeave}
+  onmousemove={!prefersReducedMotion ? handleMouseMove : null}
+  onmouseleave={!prefersReducedMotion ? handleMouseLeave : null}
 >
-  <div class="card" bind:this={card}>
-    <div class="light-effect" id="lightEffect" bind:this={lightEffect}></div>
+  <div class="card" style:transform={cardTransform}>
+    <div class="light-effect" style:transform={lightTransform}></div>
     <div class="card-content">
       <div class="card-header">
         <h2>{props.cardTitle}</h2>
@@ -118,6 +121,9 @@
     p {
       line-height: 1.6;
       color: rgba(30, 24, 0, 0.6);
+      @media (prefers-color-scheme: dark) {
+        color: rgba(255, 250, 240, 0.6);
+      }
     }
   }
 

@@ -22,8 +22,11 @@
       transition: all 0.4s ease-out;
       border: solid 2px var(--color-dark);
 
+      @media (prefers-color-scheme: dark) {
+        border: solid 2px var(--color-light);
+      }
+
       &:hover {
-        border: solid 2px var(--color-dark);
         background-color: var(--color-dark);
         color: var(--color-light);
       }
