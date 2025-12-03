@@ -56,9 +56,8 @@
           width: 32px;
           height: 32px;
         }
-        span {
-          font-size: 19px;
-        }
+        font-size: 19px;
+        font-weight: 700;
         pointer-events: none;
         user-select: none;
       }
@@ -80,6 +79,7 @@
             transition: transform 0.3s ease;
           }
           &.active {
+            font-weight: 600;
             &::after {
               transform: translateX(-50%) scaleX(1);
             }

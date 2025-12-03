@@ -1,10 +1,15 @@
 @font-face {
-  font-family: alimama;
-  src: url("./assets/AlimamaShuHeiTi-Bold.woff2");
+  font-family: alimama-shuheiti;
+  src: url("./assets/AlimamaShuHeiTi-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: alimama-fangyuanti;
+  src: url("./assets/AlimamaFangYuanTiVF-Thin.woff2") format("woff2-variations");
 }
 
 :root {
-  font-family: alimama;
+  font-family: alimama-shuheiti;
   font-weight: 400;
   color-scheme: light dark;
   font-synthesis: none;
@@ -15,6 +20,11 @@
   scroll-behavior: smooth;
   --color-dark: #181a18;
   --color-light: #faf9f7;
+
+  @supports (font-variation-settings: "BEVL" 20) {
+    font-family: alimama-fangyuanti;
+    font-variation-settings: "BEVL" 20;
+  }
 
   @media (prefers-color-scheme: light) {
     --color-text: var(--color-dark);
