@@ -1,8 +1,8 @@
 {
   "cwidth": 1527,
   "cheight": 835,
-  "elasticityFactor": 0.004647406838619508,
-  "maxPushForce": 0.04750309124428184,
+  "elasticityFactor": 0.005,
+  "maxPushForce": 0.02,
   "particles": [
     {
       "x": 801,
