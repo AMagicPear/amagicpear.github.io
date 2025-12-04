@@ -6,7 +6,9 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
 <script module lang="ts">
   import nanoflowCfg from "@/data/simplified_nanoflow.json";
-  import { Particle, updateParticleCoordinates, type ParticleData, type ParticleMouse } from "@/lib/particle";
+  const COUNT = nanoflowCfg.particles.length;
+  import init, { Particle, Position } from "@/lib/wasm-perryhome/pkg";
+  // import { updateParticleCoordinates } from "@/lib/particle";
 
   // SVG缩放因子，与CSS中的scale值保持一致
   const scaleFactor = 1.4;
@@ -20,20 +22,17 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   import { onMount } from "svelte";
   let scatterStrength = 0;
 
+  // 下面两个是wasm对象，要在onMount中初始化以后才能使用
+  let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
+  let particles: Particle[];
+
   let svg: SVGSVGElement;
-  let particles: Particle[] = nanoflowCfg.particles.map(
-    (p) =>
-      new Particle(
-        p as ParticleData,
-        nanoflowCfg.elasticityFactor,
-        nanoflowCfg.maxPushForce,
-      ),
-  );
-  let mouse: ParticleMouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
-  let particleElements: SVGCircleElement[] = new Array(particles.length);
+  let coordinates: [number, number][] = new Array(COUNT);
+  let particleElements: SVGCircleElement[] = new Array(COUNT);
   let isIntersecting = true;
 
   const handleMouseMove = (e: MouseEvent) => {
+    if (!mouse) return;
     const rect = svg.getBoundingClientRect();
     // 计算原始鼠标坐标，并除以缩放因子以匹配SVG内部坐标系统
     const cx = (e.clientX - rect.left) / scaleFactor;
@@ -56,6 +55,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   };
 
   const handleMouseLeave = () => {
+    if (!mouse) return;
     mouse.x = -1000;
     mouse.y = -1000;
     mouse.vx = 0;
@@ -64,13 +64,15 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
     scatterStrength = 0; // 鼠标离开时重置散射强度
   };
 
-  // 根据传入的坐标更新SVG元素的位置
-  const updateParticleElements = (coordinates: [number, number][]) => {
-    particleElements.forEach((element, index) => {
-      element.cx.baseVal.value = coordinates[index][0];
-      element.cy.baseVal.value = coordinates[index][1];
-    });
-  }
+  const updateParticleCoordinates = () => {
+    for (let i = 0; i < particles.length; i++) {
+      const position = particles[i].update(mouse.x, mouse.y, mouse.speed, scatterStrength);
+      coordinates[i] = [position.x, position.y];
+      particleElements[i].cx.baseVal.value = position.x;
+      particleElements[i].cy.baseVal.value = position.y;
+      position.free();
+    }
+  };
 
   // 动画主循环
   function animate() {
@@ -80,10 +82,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
       // 添加scatterStrength衰减机制，防止粒子一直处于散射状态
       scatterStrength *= 0.9;
     }
-
-    const coordinates = updateParticleCoordinates(particles, mouse, scatterStrength);
-    updateParticleElements(coordinates);
-
+    updateParticleCoordinates();
     // 仅当处于视口时才继续请求下一帧动画
     if (isIntersecting) {
       requestAnimationFrame(animate);
@@ -104,18 +103,27 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   });
 
   onMount(() => {
-    const coordinates = updateParticleCoordinates(particles, mouse, scatterStrength);
-    updateParticleElements(coordinates);
-    if (!hasMouse || prefersReducedMotion) return;
-    // 下面的部分仅在有鼠标且设置不为削弱动画时执行
-    // 以免浪费设备性能以及造成移动端的渲染异常
-    intersectionObserver.observe(svg);
-    requestAnimationFrame(animate);
+    init().then(() => {
+      particles = nanoflowCfg.particles.map(
+        (p) =>
+          new Particle(
+            new Position(p.x, p.y),
+            nanoflowCfg.elasticityFactor,
+            nanoflowCfg.maxPushForce,
+          ),
+      );
+      updateParticleCoordinates();
+      if (!hasMouse || prefersReducedMotion) return;
+      // 下面的部分仅在有鼠标且设置不为削弱动画时执行
+      // 以免浪费设备性能以及造成移动端的渲染异常
+      intersectionObserver.observe(svg);
+      requestAnimationFrame(animate);
+    });
+
     // 清理事件监听
     return () => {
       intersectionObserver.disconnect();
-      svg.removeEventListener("mousemove", handleMouseMove);
-      svg.removeEventListener("mouseleave", handleMouseLeave);
+      particles.forEach(p => p.free());
     };
   });
 </script>
@@ -129,7 +137,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   role="presentation"
   xmlns="http://www.w3.org/2000/svg"
 >
-  {#each particles as particle, index}
+  {#each nanoflowCfg.particles as particle, index}
     <circle
       r={particle.size}
       fill={`rgb(${particle.color.join(",")})`}

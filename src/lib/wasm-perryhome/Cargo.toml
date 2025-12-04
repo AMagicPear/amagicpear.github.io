@@ -3,6 +3,7 @@ name = "wasm-perryhome"
 version = "0.1.0"
 edition = "2024"
 description = "NanoFlow wasm module in rust"
+workspace = "../../../"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
