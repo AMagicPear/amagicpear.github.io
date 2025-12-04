@@ -8,7 +8,6 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   import nanoflowCfg from "@/data/simplified_nanoflow.json";
   const COUNT = nanoflowCfg.particles.length;
   import init, { Particles, Position } from "@/lib/wasm-perryhome/pkg";
-  // import { updateParticleCoordinates } from "@/lib/particle";
 
   // SVG缩放因子，与CSS中的scale值保持一致
   const scaleFactor = 1.4;
@@ -21,19 +20,13 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 <script lang="ts">
   import { onMount } from "svelte";
   let scatterStrength = 0;
-
-
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
-  // particles是wasm对象，要在onMount中初始化以后才能使用
-  let particles: Particles;
 
   let svg: SVGSVGElement;
-  let positions: [number, number][] = new Array(COUNT);
   let particleElements: SVGCircleElement[] = new Array(COUNT);
   let isIntersecting = true;
 
   const handleMouseMove = (e: MouseEvent) => {
-    if (!mouse) return;
     const rect = svg.getBoundingClientRect();
     // 计算原始鼠标坐标，并除以缩放因子以匹配SVG内部坐标系统
     const cx = (e.clientX - rect.left) / scaleFactor;
@@ -56,7 +49,6 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   };
 
   const handleMouseLeave = () => {
-    if (!mouse) return;
     mouse.x = -1000;
     mouse.y = -1000;
     mouse.vx = 0;
@@ -65,67 +57,69 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
     scatterStrength = 0; // 鼠标离开时重置散射强度
   };
 
-  const updateParticleCoordinates = () => {
-    let positions = particles.update(
-      mouse.x,
-      mouse.y,
-      mouse.speed,
-      scatterStrength,
-    );
-    positions.forEach((position, index) => {
-      particleElements[index].cx.baseVal.value = position.x;
-      particleElements[index].cy.baseVal.value = position.y;
-      position.free();
-    });
-  };
-
-  // 动画主循环
-  function animate() {
-    if (mouse.speed > 220) {
-      scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
-    } else {
-      // 添加scatterStrength衰减机制，防止粒子一直处于散射状态
-      scatterStrength *= 0.9;
-    }
-    updateParticleCoordinates();
-    // 仅当处于视口时才继续请求下一帧动画
-    if (isIntersecting) {
-      requestAnimationFrame(animate);
-    }
-  }
-
-  // 用于监听SVG画布是否可见，不可见时暂停动画以避免浪费性能
-  const intersectionObserver = new IntersectionObserver((entries) => {
-    // 仅监听SVG元素，若不是则报错
-    console.assert(entries.length === 1 && entries[0].target.isSameNode(svg));
-    if (entries[0].isIntersecting) {
-      isIntersecting = true;
-      requestAnimationFrame(animate);
-    } else {
-      handleMouseLeave();
-      isIntersecting = false;
-    }
-  });
-
   onMount(() => {
-    init().then(() => {
+    let particles: Particles | undefined;
+    let intersectionObserver: IntersectionObserver | undefined;
+
+    init().then((wasm) => {
       particles = new Particles(
         nanoflowCfg.particles.map((p) => new Position(p.x, p.y)),
         nanoflowCfg.elasticityFactor,
         nanoflowCfg.maxPushForce,
       );
+      const ptr = particles.positions_ptr();
+      const len = particles.positions_len();
+      const positions = new Float32Array(wasm.memory.buffer, ptr, len * 2);
+
+      // 用于监听SVG画布是否可见，不可见时暂停动画以避免浪费性能
+      intersectionObserver = new IntersectionObserver((entries) => {
+        // 仅监听SVG元素，若不是则报错
+        console.assert(
+          entries.length === 1 && entries[0].target.isSameNode(svg),
+        );
+        if (entries[0].isIntersecting) {
+          isIntersecting = true;
+          requestAnimationFrame(animate);
+        } else {
+          handleMouseLeave();
+          isIntersecting = false;
+        }
+      });
+
+      const updateParticleCoordinates = () => {
+        particles?.update(mouse.x, mouse.y, mouse.speed, scatterStrength);
+        for (let i = 0; i < len; i++) {
+          particleElements[i].cx.baseVal.value = positions[i * 2];
+          particleElements[i].cy.baseVal.value = positions[i * 2 + 1];
+        }
+      };
       updateParticleCoordinates();
-      if (!hasMouse || prefersReducedMotion) return;
+
       // 下面的部分仅在有鼠标且设置不为削弱动画时执行
       // 以免浪费设备性能以及造成移动端的渲染异常
+      if (!hasMouse || prefersReducedMotion) return;
+      // 动画主循环
+      function animate() {
+        if (mouse.speed > 220) {
+          scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
+        } else {
+          // 添加scatterStrength衰减机制，防止粒子一直处于散射状态
+          scatterStrength *= 0.9;
+        }
+        updateParticleCoordinates();
+        // 仅当处于视口时才继续请求下一帧动画
+        if (isIntersecting) {
+          requestAnimationFrame(animate);
+        }
+      }
       intersectionObserver.observe(svg);
       requestAnimationFrame(animate);
     });
 
     // 清理事件监听
     return () => {
-      intersectionObserver.disconnect();
-      particles.free();
+      intersectionObserver?.disconnect();
+      particles?.free();
     };
   });
 </script>

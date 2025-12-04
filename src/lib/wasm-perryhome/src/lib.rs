@@ -2,6 +2,7 @@ use js_sys::Math;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
+#[repr(C)] // 保证内存连续
 #[derive(Clone)]
 pub struct Position {
     x: f32,
@@ -139,12 +140,20 @@ impl Particles {
         }
     }
 
-    pub fn update(&mut self, mouse_x: f32, mouse_y: f32, mouse_speed: f32, scatter_strength: f32) -> Vec<Position> {
+    pub fn update(&mut self, mouse_x: f32, mouse_y: f32, mouse_speed: f32, scatter_strength: f32) {
         for (i, particle) in self.data.iter_mut().enumerate() {
             particle.update(mouse_x, mouse_y, mouse_speed, scatter_strength);
             self.positions[i].x = particle.x;
             self.positions[i].y = particle.y;
         }
-        self.positions.clone()
+    }
+
+    /// JS 直接读取内存用的指针
+    pub fn positions_ptr(&self) -> *const Position {
+        self.positions.as_ptr()
+    }
+
+    pub fn positions_len(&self) -> usize {
+        self.positions.len()
     }
 }
