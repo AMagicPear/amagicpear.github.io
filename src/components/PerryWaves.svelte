@@ -6,7 +6,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
 <script module lang="ts">
   import nanoflowCfg from "@/data/simplified_nanoflow.json";
-  import { Particle, type ParticleData } from "@/lib/particle";
+  import { Particle, updateParticleCoordinates, type ParticleData, type ParticleMouse } from "@/lib/particle";
 
   // SVG缩放因子，与CSS中的scale值保持一致
   const scaleFactor = 1.4;
@@ -14,7 +14,6 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
-  const disperseFactor = 1;
 </script>
 
 <script lang="ts">
@@ -23,26 +22,16 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
   let svg: SVGSVGElement;
   let particles: Particle[] = nanoflowCfg.particles.map(
-    (p, index) =>
+    (p) =>
       new Particle(
         p as ParticleData,
-        index,
         nanoflowCfg.elasticityFactor,
         nanoflowCfg.maxPushForce,
       ),
   );
-  let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
-  let particleElements: { [key: string]: SVGCircleElement } = {};
+  let mouse: ParticleMouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
+  let particleElements: SVGCircleElement[] = new Array(particles.length);
   let isIntersecting = true;
-
-  const updateParticles = (particles: Particle[]) => {
-    particles.forEach((particle) => {
-      particle.update(mouse, disperseFactor, scatterStrength);
-      const element = particleElements[particle.id];
-      element.cx.baseVal.value = particle.x;
-      element.cy.baseVal.value = particle.y;
-    });
-  };
 
   const handleMouseMove = (e: MouseEvent) => {
     const rect = svg.getBoundingClientRect();
@@ -75,6 +64,15 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
     scatterStrength = 0; // 鼠标离开时重置散射强度
   };
 
+  // 根据传入的坐标更新SVG元素的位置
+  const updateParticleElements = (coordinates: [number, number][]) => {
+    particleElements.forEach((element, index) => {
+      element.cx.baseVal.value = coordinates[index][0];
+      element.cy.baseVal.value = coordinates[index][1];
+    });
+  }
+
+  // 动画主循环
   function animate() {
     if (mouse.speed > 220) {
       scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
@@ -82,14 +80,18 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
       // 添加scatterStrength衰减机制，防止粒子一直处于散射状态
       scatterStrength *= 0.9;
     }
-    updateParticles(particles);
+
+    const coordinates = updateParticleCoordinates(particles, mouse, scatterStrength);
+    updateParticleElements(coordinates);
+
     // 仅当处于视口时才继续请求下一帧动画
     if (isIntersecting) {
       requestAnimationFrame(animate);
     }
   }
 
-  const observer = new IntersectionObserver((entries) => {
+  // 用于监听SVG画布是否可见，不可见时暂停动画以避免浪费性能
+  const intersectionObserver = new IntersectionObserver((entries) => {
     // 仅监听SVG元素，若不是则报错
     console.assert(entries.length === 1 && entries[0].target.isSameNode(svg));
     if (entries[0].isIntersecting) {
@@ -102,22 +104,16 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   });
 
   onMount(() => {
-    // 初始化粒子元素引用
-    particles.forEach((particle) => {
-      const element = svg.querySelector(`#${particle.id}`);
-      if (element) {
-        particleElements[particle.id] = element as SVGCircleElement;
-      }
-    });
-    updateParticles(particles);
+    const coordinates = updateParticleCoordinates(particles, mouse, scatterStrength);
+    updateParticleElements(coordinates);
     if (!hasMouse || prefersReducedMotion) return;
-    observer.observe(svg);
-
+    // 下面的部分仅在有鼠标且设置不为削弱动画时执行
+    // 以免浪费设备性能以及造成移动端的渲染异常
+    intersectionObserver.observe(svg);
     requestAnimationFrame(animate);
-
     // 清理事件监听
     return () => {
-      observer.disconnect();
+      intersectionObserver.disconnect();
       svg.removeEventListener("mousemove", handleMouseMove);
       svg.removeEventListener("mouseleave", handleMouseLeave);
     };
@@ -133,11 +129,11 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   role="presentation"
   xmlns="http://www.w3.org/2000/svg"
 >
-  {#each particles as particle}
+  {#each particles as particle, index}
     <circle
-      id={particle.id}
       r={particle.size}
       fill={`rgb(${particle.color.join(",")})`}
+      bind:this={particleElements[index]}
     />
   {/each}
 </svg>

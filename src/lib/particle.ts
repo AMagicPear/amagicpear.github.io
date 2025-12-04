@@ -5,6 +5,14 @@ export interface ParticleData {
   color: [number, number, number];
 }
 
+export interface ParticleMouse {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  speed: number;
+}
+
 export class Particle implements ParticleData {
   cx: number;
   cy: number;
@@ -22,9 +30,12 @@ export class Particle implements ParticleData {
   destY: number = 0;
   elasticityFactor: number;
   maxPushForce: number;
-  id: string;
 
-  constructor(data: ParticleData, index: number, elasticityFactor: number, maxPushForce: number) {
+  constructor(
+    data: ParticleData,
+    elasticityFactor: number,
+    maxPushForce: number,
+  ) {
     Object.assign(this, data);
     this.cx = data.x;
     this.cy = data.y;
@@ -34,20 +45,9 @@ export class Particle implements ParticleData {
     this.destY = data.y;
     this.elasticityFactor = elasticityFactor;
     this.maxPushForce = maxPushForce;
-    this.id = `particle-${index}`;
   }
 
-  update(
-    mouse: {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      speed: number;
-    },
-    disperseFactor: number,
-    scatterStrength: number,
-  ) {
+  update(mouse: ParticleMouse, scatterStrength: number) : [number, number] {
     if (scatterStrength > 0.01) {
       let explosionFactor = Math.min(scatterStrength * 2.5, 6);
       this.offsetX += (Math.random() - 0.5) * scatterStrength * explosionFactor;
@@ -63,18 +63,13 @@ export class Particle implements ParticleData {
       this.offsetX *= 0.8;
       this.offsetY *= 0.8;
     }
-    this.destX =
-      this.cx + (this.baseX - this.cx) * disperseFactor + this.offsetX;
-    this.destY =
-      this.cy + (this.baseY - this.cy) * disperseFactor + this.offsetY;
+    this.destX = this.cx + (this.baseX - this.cx) + this.offsetX;
+    this.destY = this.cy + (this.baseY - this.cy) + this.offsetY;
     let dx = this.destX - this.x;
     let dy = this.destY - this.y;
     this.vx += dx * this.elasticityFactor;
     this.vy += dy * this.elasticityFactor;
-    let enableEffect =
-      (disperseFactor <= 1.01 && scatterStrength < 0.05 && mouse) ||
-      (scatterStrength > 0 && mouse);
-    if (enableEffect) {
+    if (scatterStrength < 0.05) {
       let mx = mouse.x;
       let my = mouse.y;
       let dist2 = (this.x - mx) * (this.x - mx) + (this.y - my) * (this.y - my);
@@ -108,5 +103,19 @@ export class Particle implements ParticleData {
     this.vy *= 0.7;
     this.x += this.vx;
     this.y += this.vy;
+    return [this.x, this.y];
   }
 }
+
+export const updateParticleCoordinates = (
+  particles: Particle[],
+  mouse: ParticleMouse,
+  scatterStrength: number,
+) => {
+  let coordinates: [number, number][] = new Array(particles.length);
+  particles.forEach((particle, index) => {
+    const [x, y] = particle.update(mouse, scatterStrength);
+    coordinates[index] = [x, y];
+  });
+  return coordinates;
+};
