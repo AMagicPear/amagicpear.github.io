@@ -7,7 +7,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 <script module lang="ts">
   import nanoflowCfg from "@/data/simplified_nanoflow.json";
   const COUNT = nanoflowCfg.particles.length;
-  import init, { Particle, Position } from "@/lib/wasm-perryhome/pkg";
+  import init, { Particles, Position } from "@/lib/wasm-perryhome/pkg";
   // import { updateParticleCoordinates } from "@/lib/particle";
 
   // SVG缩放因子，与CSS中的scale值保持一致
@@ -22,12 +22,13 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   import { onMount } from "svelte";
   let scatterStrength = 0;
 
-  // 下面两个是wasm对象，要在onMount中初始化以后才能使用
+
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
-  let particles: Particle[];
+  // particles是wasm对象，要在onMount中初始化以后才能使用
+  let particles: Particles;
 
   let svg: SVGSVGElement;
-  let coordinates: [number, number][] = new Array(COUNT);
+  let positions: [number, number][] = new Array(COUNT);
   let particleElements: SVGCircleElement[] = new Array(COUNT);
   let isIntersecting = true;
 
@@ -65,13 +66,17 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   };
 
   const updateParticleCoordinates = () => {
-    for (let i = 0; i < particles.length; i++) {
-      const position = particles[i].update(mouse.x, mouse.y, mouse.speed, scatterStrength);
-      coordinates[i] = [position.x, position.y];
-      particleElements[i].cx.baseVal.value = position.x;
-      particleElements[i].cy.baseVal.value = position.y;
+    let positions = particles.update(
+      mouse.x,
+      mouse.y,
+      mouse.speed,
+      scatterStrength,
+    );
+    positions.forEach((position, index) => {
+      particleElements[index].cx.baseVal.value = position.x;
+      particleElements[index].cy.baseVal.value = position.y;
       position.free();
-    }
+    });
   };
 
   // 动画主循环
@@ -104,13 +109,10 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
   onMount(() => {
     init().then(() => {
-      particles = nanoflowCfg.particles.map(
-        (p) =>
-          new Particle(
-            new Position(p.x, p.y),
-            nanoflowCfg.elasticityFactor,
-            nanoflowCfg.maxPushForce,
-          ),
+      particles = new Particles(
+        nanoflowCfg.particles.map((p) => new Position(p.x, p.y)),
+        nanoflowCfg.elasticityFactor,
+        nanoflowCfg.maxPushForce,
       );
       updateParticleCoordinates();
       if (!hasMouse || prefersReducedMotion) return;
@@ -123,7 +125,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
     // 清理事件监听
     return () => {
       intersectionObserver.disconnect();
-      particles.forEach(p => p.free());
+      particles.free();
     };
   });
 </script>

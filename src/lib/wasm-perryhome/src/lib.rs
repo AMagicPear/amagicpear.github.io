@@ -2,12 +2,12 @@ use js_sys::Math;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
+#[derive(Clone)]
 pub struct Position {
     x: f32,
     y: f32,
 }
 
-#[wasm_bindgen]
 pub struct Particle {
     cx: f32,
     cy: f32,
@@ -43,12 +43,10 @@ impl Position {
     }
 }
 
-#[wasm_bindgen]
 impl Particle {
-    #[wasm_bindgen(constructor)]
     pub fn new(data: &Position, elasticity_factor: f32, max_push_force: f32) -> Self {
-        let x = data.x();
-        let y = data.y();
+        let x = data.x;
+        let y = data.y;
         Self {
             cx: x,
             cy: y,
@@ -67,7 +65,7 @@ impl Particle {
         }
     }
 
-    pub fn update(&mut self, mouse_x: f32, mouse_y: f32, mouse_speed: f32, scatter_strength: f32) -> Position {
+    pub fn update(&mut self, mouse_x: f32, mouse_y: f32, mouse_speed: f32, scatter_strength: f32) {
         if scatter_strength > 0.01 {
             let explosion_factor = f32::min(scatter_strength * 2.5, 6.0);
             self.offset_x += (Math::random() as f32 - 0.5) * scatter_strength * explosion_factor;
@@ -119,14 +117,34 @@ impl Particle {
         self.vy *= 0.7;
         self.x += self.vx;
         self.y += self.vy;
-        Position {
-            x: self.x,
-            y: self.y,
-        }
     }
 }
 
-// #[wasm_bindgen]
-// pub fn generate_particles(particle_datas){
+#[wasm_bindgen]
+pub struct Particles {
+    data: Vec<Particle>,
+    positions: Vec<Position>,
+}
 
-// }
+#[wasm_bindgen]
+impl Particles {
+    #[wasm_bindgen(constructor)]
+    pub fn new(particle_datas: Vec<Position>, elasticity_factor: f32, max_push_force: f32) -> Self {
+        Particles {
+            positions: particle_datas.clone(),
+            data: particle_datas
+                .into_iter()
+                .map(|pos| Particle::new(&pos, elasticity_factor, max_push_force))
+                .collect(),
+        }
+    }
+
+    pub fn update(&mut self, mouse_x: f32, mouse_y: f32, mouse_speed: f32, scatter_strength: f32) -> Vec<Position> {
+        for (i, particle) in self.data.iter_mut().enumerate() {
+            particle.update(mouse_x, mouse_y, mouse_speed, scatter_strength);
+            self.positions[i].x = particle.x;
+            self.positions[i].y = particle.y;
+        }
+        self.positions.clone()
+    }
+}
