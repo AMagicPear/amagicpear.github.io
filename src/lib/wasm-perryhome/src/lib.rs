@@ -1,17 +1,20 @@
-use js_sys::Math;
+use fastrand::Rng;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
 #[repr(C)] // 保证内存连续
-#[derive(Clone)]
-pub struct Position {
-    x: f32,
-    y: f32,
+#[derive(Clone, Copy)]
+pub struct Position(f32, f32);
+
+#[wasm_bindgen]
+impl Position {
+    #[wasm_bindgen(constructor)]
+    pub fn new(x: f32, y: f32) -> Self {
+        Self(x, y)
+    }
 }
 
 pub struct Particle {
-    cx: f32,
-    cy: f32,
     base_x: f32,
     base_y: f32,
     x: f32,
@@ -20,102 +23,102 @@ pub struct Particle {
     vy: f32,
     offset_x: f32,
     offset_y: f32,
-    dest_x: f32,
-    dest_y: f32,
     elasticity_factor: f32,
     max_push_force: f32,
 }
 
-#[wasm_bindgen]
-impl Position {
-    #[wasm_bindgen(constructor)]
-    pub fn new(x: f32, y: f32) -> Self {
-        Self { x, y }
-    }
-
-    #[wasm_bindgen(getter)]
-    pub fn x(&self) -> f32 {
-        self.x
-    }
-
-    #[wasm_bindgen(getter)]
-    pub fn y(&self) -> f32 {
-        self.y
-    }
-}
-
 impl Particle {
     pub fn new(data: &Position, elasticity_factor: f32, max_push_force: f32) -> Self {
-        let x = data.x;
-        let y = data.y;
         Self {
-            cx: x,
-            cy: y,
-            base_x: x,
-            base_y: y,
-            x,
-            y,
+            base_x: data.0,
+            base_y: data.1,
+            x: data.0,
+            y: data.1,
             vx: 0.0,
             vy: 0.0,
             offset_x: 0.0,
             offset_y: 0.0,
-            dest_x: x,
-            dest_y: y,
             elasticity_factor,
             max_push_force,
         }
     }
 
-    pub fn update(&mut self, mouse_x: f32, mouse_y: f32, mouse_speed: f32, scatter_strength: f32) {
-        if scatter_strength > 0.01 {
+    pub fn update(
+        &mut self,
+        mouse_x: f32,
+        mouse_y: f32,
+        mouse_speed: f32,
+        scatter_strength: f32,
+        rng: &mut Rng,
+    ) {
+        const MAX_SPEED: f32 = 10.0;
+        const DRAG: f32 = 0.7;
+        const OFFSET_DAMP: f32 = 0.8;
+        let scatter_active = scatter_strength > 0.01;
+
+        if scatter_active {
             let explosion_factor = f32::min(scatter_strength * 2.5, 6.0);
-            self.offset_x += (Math::random() as f32 - 0.5) * scatter_strength * explosion_factor;
-            self.offset_y += (Math::random() as f32 - 0.5) * scatter_strength * explosion_factor;
-            let max_offset = scatter_strength * 18.0 + 18.0;
-            self.offset_x = f32::max(-max_offset, f32::min(max_offset, self.offset_x));
-            self.offset_y = f32::max(-max_offset, f32::min(max_offset, self.offset_y));
+
+            self.offset_x += (rng.f32() - 0.5) * scatter_strength * explosion_factor;
+            self.offset_y += (rng.f32() - 0.5) * scatter_strength * explosion_factor;
+
+            let max_offset = scatter_strength.mul_add(18.0, 18.0);
+            self.offset_x = self.offset_x.clamp(-max_offset, max_offset);
+            self.offset_y = self.offset_y.clamp(-max_offset, max_offset);
+
             if scatter_strength > 6.0 {
-                self.vx += (Math::random() as f32 - 0.5) * scatter_strength * 2.0;
-                self.vy += (Math::random() as f32 - 0.5) * scatter_strength * 2.0;
+                self.vx += (rng.f32() - 0.5) * scatter_strength * 2.0;
+                self.vy += (rng.f32() - 0.5) * scatter_strength * 2.0;
             }
         } else {
-            self.offset_x *= 0.8;
-            self.offset_y *= 0.8;
+            self.offset_x *= OFFSET_DAMP;
+            self.offset_y *= OFFSET_DAMP;
         }
-        self.dest_x = self.cx + (self.base_x - self.cx) + self.offset_x;
-        self.dest_y = self.cy + (self.base_y - self.cy) + self.offset_y;
-        let dx = self.dest_x - self.x;
-        let dy = self.dest_y - self.y;
-        self.vx += dx * self.elasticity_factor;
-        self.vy += dy * self.elasticity_factor;
+
+        let dx = self.base_x + self.offset_x - self.x;
+        let dy = self.base_y + self.offset_y - self.y;
+
+        self.vx = self.vx.mul_add(DRAG, dx * self.elasticity_factor);
+        self.vy = self.vy.mul_add(DRAG, dy * self.elasticity_factor);
+
         if scatter_strength < 0.05 {
-            let (mx, my) = (mouse_x, mouse_y);
-            let dist2 = (self.x - mx).powi(2) + (self.y - my).powi(2);
-            let min_dist = 18.0 + f32::min(mouse_speed * 2.5, 120.0);
-            let thickness = (min_dist * (1.5 + self.max_push_force * 7.0)).powi(2);
-            let angle = Math::atan2((self.y - my) as f64, (self.x - mx) as f64);
+            let dx_mouse = self.x - mouse_x;
+            let dy_mouse = self.y - mouse_y;
+            let dist2 = dx_mouse.powi(2) + dy_mouse.powi(2);
+
+            let min_dist = mouse_speed.mul_add(2.5, 18.0).min(138.0);
+            let thickness_factor = 1.5 + self.max_push_force * 7.0;
+            let thickness = (min_dist * thickness_factor).powi(2);
+
             if dist2 < thickness {
                 let mut f = thickness / dist2;
-                f = f32::max(0.1, f32::min(f, 20.0));
-                if f > 0.5 && f <= 1.5 {
+                f = f.clamp(0.1, 20.0);
+                if (0.5..=1.5).contains(&f) {
                     f = 0.5;
                 }
-                let vx = f * Math::cos(angle) as f32;
-                let vy = f * Math::sin(angle) as f32;
-                self.vx -= vx * self.max_push_force * 1.5
-                    + ((self.base_x - self.x) * self.elasticity_factor) / 250.0;
-                self.vy -= vy * self.max_push_force * 1.5
-                    + ((self.base_y - self.y) * self.elasticity_factor) / 250.0;
+
+                let angle = dy_mouse.atan2(dx_mouse);
+                let cos_angle = angle.cos();
+                let sin_angle = angle.sin();
+
+                let vx = f * cos_angle;
+                let vy = f * sin_angle;
+
+                let push_strength = self.max_push_force * 1.5;
+                let elasticity_factor = self.elasticity_factor / 250.0;
+
+                self.vx -= vx.mul_add(push_strength, (self.base_x - self.x) * elasticity_factor);
+                self.vy -= vy.mul_add(push_strength, (self.base_y - self.y) * elasticity_factor);
             }
         }
-        const MAX_SPEED: f32 = 10.0;
-        let speed = Math::sqrt((self.vx.powi(2) + self.vy.powi(2)) as f64) as f32;
-        if speed > MAX_SPEED {
-            self.vx = self.vx / speed * MAX_SPEED;
-            self.vy = self.vy / speed * MAX_SPEED;
+
+        let speed_sq = self.vx * self.vx + self.vy * self.vy;
+        if speed_sq > MAX_SPEED * MAX_SPEED {
+            let inv_speed = speed_sq.sqrt().recip();
+            self.vx *= MAX_SPEED * inv_speed;
+            self.vy *= MAX_SPEED * inv_speed;
         }
-        self.vx *= 0.7;
-        self.vy *= 0.7;
+
         self.x += self.vx;
         self.y += self.vy;
     }
@@ -125,6 +128,7 @@ impl Particle {
 pub struct Particles {
     data: Vec<Particle>,
     positions: Vec<Position>,
+    rng: Rng,
 }
 
 #[wasm_bindgen]
@@ -137,14 +141,21 @@ impl Particles {
                 .into_iter()
                 .map(|pos| Particle::new(&pos, elasticity_factor, max_push_force))
                 .collect(),
+            rng: Rng::new(),
         }
     }
 
     pub fn update(&mut self, mouse_x: f32, mouse_y: f32, mouse_speed: f32, scatter_strength: f32) {
         for (i, particle) in self.data.iter_mut().enumerate() {
-            particle.update(mouse_x, mouse_y, mouse_speed, scatter_strength);
-            self.positions[i].x = particle.x;
-            self.positions[i].y = particle.y;
+            particle.update(
+                mouse_x,
+                mouse_y,
+                mouse_speed,
+                scatter_strength,
+                &mut self.rng,
+            );
+            self.positions[i].0 = particle.x;
+            self.positions[i].1 = particle.y;
         }
     }
 

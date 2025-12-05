@@ -65,6 +65,8 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
     let intersectionObserver: IntersectionObserver | undefined;
     onMount(async () => {
       try {
+        // 初始化wasm模块，在这里异步引入的好处是只有需要用到的时候浏览器才会去获取
+        // 可以让移动端省去加载这个模块的步骤
         const wasmModule = await import("@/lib/wasm-perryhome/pkg");
         const wasmInitOutput = await wasmModule.default();
         particles = new wasmModule.Particles(
@@ -72,6 +74,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
           nanoflowCfg.elasticityFactor,
           nanoflowCfg.maxPushForce,
         );
+        // 获取指向各个粒子位置的数组的指针，直接读取内存以免频繁复制传递造成性能开销
         const ptr = particles.positions_ptr();
         const len = particles.positions_len();
         const positions = new Float32Array(

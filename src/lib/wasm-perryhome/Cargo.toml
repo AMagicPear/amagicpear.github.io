@@ -1,6 +1,6 @@
 [package]
 name = "wasm-perryhome"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 description = "NanoFlow wasm module in rust"
 workspace = "../../../"
@@ -9,5 +9,5 @@ workspace = "../../../"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-js-sys = "0.3.83"
+fastrand = "2.3.0"
 wasm-bindgen = "0.2"
