@@ -1,18 +1,15 @@
 <script lang="ts">
+  import type { PerryWork } from "@/data/works";
+
   let cardTransform: string = $state<string>(
-    "rotateX(0) rotateY(0) translateZ(0)"
+    "rotateX(0) rotateY(0) translateZ(0)",
   );
   let lightTransform: string = $state<string>("translate(0, 0)");
   let cardContainer: HTMLDivElement;
-  let props = $props<{
-    cardTitle: string;
-    description: string;
-    classify: string;
-    link: string;
-  }>();
+  let props: PerryWork = $props();
 
   const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
+    "(prefers-reduced-motion: reduce)",
   ).matches;
 
   // 获取卡片中心点
@@ -56,7 +53,19 @@
   onmouseleave={!prefersReducedMotion ? handleMouseLeave : null}
 >
   <div class="card" style:transform={cardTransform}>
-    <div class="light-effect" style:transform={lightTransform}></div>
+    {#if props.backgroundImg}
+      <picture>
+        <source srcset={props.backgroundImg} />
+        <img alt="Cover" />
+      </picture>
+    {/if}
+    {#if props.lightColor}
+      <div
+        class="light-effect"
+        style:transform={lightTransform}
+        style:background={`radial-gradient(circle, ${props.lightColor} 0%, rgba(0, 0, 0, 0) 70%)`}
+      ></div>
+    {/if}
     <div class="card-content">
       <div class="card-header">
         <h2>{props.cardTitle}</h2>
@@ -85,31 +94,38 @@
     height: 100%;
     transition: transform 0.15s ease-out;
     transform-style: preserve-3d;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255, 0.5);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     will-change: transform;
     @media (prefers-color-scheme: dark) {
-      background-color: rgb(255, 255, 255, 0.05);
+      background-color: rgb(255, 255, 255, 0.1);
+    }
+  }
+
+  picture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
     }
   }
 
   .card-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    inset: 0;
     padding: 30px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0.02) 100%
-    );
-    backdrop-filter: blur(10px);
-    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transform: translateZ(40px);
+    transform: translateZ(10px);
+    z-index: 10;
+    backdrop-filter: blur(2px);
   }
 
   .card-header {
@@ -163,12 +179,6 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgba(200, 140, 0, 0.4) 0%,
-      rgba(108, 92, 231, 0) 70%
-    );
-    filter: blur(30px);
     z-index: 1;
     pointer-events: none;
     transition: transform 0.2s ease-out;

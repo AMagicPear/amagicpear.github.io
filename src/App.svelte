@@ -1,7 +1,6 @@
 <script lang="ts">
   import PerryHeader from "@/components/PerryHeader.svelte";
   import LeftCard from "@/components/LeftCard.svelte";
-  import PerryWaves from "@/components/PerryWaves.svelte";
   import EmailIcon from "@/assets/icons/email.svg";
   import GithubIcon from "@/assets/icons/github.svg";
   import BilibiliIcon from "@/assets/icons/bilibili.svg";
@@ -9,6 +8,7 @@
   import Typed from "typed.js";
   import { onMount } from "svelte";
   import MyWorks from "@/components/MyWorks.svelte";
+  const PerryWavesPromise = import("@/components/PerryWaves.svelte");
 
   const contact = [
     {
@@ -49,8 +49,6 @@
       typed.destroy();
     };
   });
-
-  let isShowWaves = true;
 </script>
 
 <PerryHeader />
@@ -58,9 +56,9 @@
 <main>
   <section id="top-showcase">
     <div class="background-element">
-      {#if isShowWaves}
-        <PerryWaves />
-      {/if}
+      {#await PerryWavesPromise then PerryWaves}
+        <PerryWaves.default />
+      {/await}
     </div>
     <div class="floating-element">
       <LeftCard cardTitle="你好！👋">

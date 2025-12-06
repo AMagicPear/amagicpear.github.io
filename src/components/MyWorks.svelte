@@ -1,14 +1,16 @@
 <script lang="ts">
   import ChaperHeader from "./ChaperHeader.svelte";
   import CoolCard from "./CoolCard.svelte";
-  import works from "@/data/works.json"
+  const worksPromise = import("@/data/works");
 </script>
 
 <ChaperHeader title="我的作品" />
 <div class="works-container">
-  {#each works as work}
-    <CoolCard cardTitle={work.title} description={work.description} classify={work.classify} link={work.link}/>
-  {/each}
+  {#await worksPromise then works}
+    {#each works.default as work}
+      <CoolCard {...work} />
+    {/each}
+  {/await}
 </div>
 
 <style lang="scss">
@@ -17,6 +19,5 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    /* max-width: ; */
   }
 </style>

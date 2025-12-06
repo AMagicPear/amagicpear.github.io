@@ -1,12 +1,42 @@
 <script lang="ts">
   import LostInLightRoundWhite from "@/assets/icons/LostInLightRoundWhite.svg";
-  import { _ } from "svelte-i18n";
+  import earthIcon from "@/assets/icons/Earth.svg";
+  import { _, locale } from "svelte-i18n";
+  import { fade } from "svelte/transition";
+  import { Language } from "@/i18n";
+
+  const duration = 100;
+  let showTooltip = $state(false);
+  let timeoutId: number;
+
+  function handleMouseEnter() {
+    showTooltip = true;
+  }
+
+  function handleMouseLeave() {
+    timeoutId = setTimeout(() => {
+      showTooltip = false;
+    }, duration); // 延迟关闭
+  }
+
+  function handleTooltipMouseEnter() {
+    clearTimeout(timeoutId);
+  }
+
+  function handleSwitchLanguage(lang: Language) {
+    console.info(`Switching language to ${lang}`);
+    $locale = lang;
+    localStorage.setItem("locale", lang);
+  }
 </script>
 
 <div id="header-container">
   <div class="subcontainer">
     <div class="left">
-      <img src={LostInLightRoundWhite} alt="" />
+      <picture>
+        <source srcset={LostInLightRoundWhite} type="image/svg+xml" />
+        <img src={LostInLightRoundWhite} alt="" />
+      </picture>
       <span
         >一只会魔法的梨<span class="title-en">&nbsp;|&nbsp;AMagicPear</span
         ></span
@@ -14,12 +44,84 @@
     </div>
     <div class="right">
       <a href="/"><span class="active">{$_("pages.showcase")}</span></a>
-      <span style="color: rgba(255, 255, 255, 0.5);">{$_("pages.constructing")}</span>
+      <span style:color="rgba(255, 255, 255, 0.5)"
+        >{$_("pages.constructing")}</span
+      >
+      <div class="earth-icon-container">
+        <img
+          src={earthIcon}
+          alt="Earth Icon"
+          onmouseenter={handleMouseEnter}
+          onmouseleave={handleMouseLeave}
+        />
+        {#if showTooltip}
+          <div
+            class="translation-tip"
+            onmouseenter={handleTooltipMouseEnter}
+            onmouseleave={handleMouseLeave}
+            role="group"
+            transition:fade={{ duration }}
+          >
+            <h4>切换语言</h4>
+            <menu>
+              <menuitem onclick={() => handleSwitchLanguage(Language.ZH_CN)}
+                >简体中文</menuitem
+              >
+              <menuitem onclick={() => handleSwitchLanguage(Language.EN)}
+                >English</menuitem
+              >
+            </menu>
+          </div>
+        {/if}
+      </div>
     </div>
   </div>
 </div>
 
 <style lang="scss">
+  .translation-tip {
+    position: absolute;
+    top: 100%;
+    margin-top: 8px;
+    background: #333;
+    color: white;
+    padding: 16px;
+    border-radius: 4px;
+    white-space: nowrap;
+    h4 {
+      margin: 0 0 10px 0;
+    }
+    menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      menuitem {
+        display: block;
+        padding: 4px 0;
+        font-size: 14px;
+        cursor: pointer;
+        transition: font-weight 0.3s ease;
+        &:hover {
+          font-weight: 800;
+        }
+      }
+    }
+  }
+
+  .earth-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    img {
+      width: 100%;
+      height: 100%;
+      user-select: none;
+    }
+  }
+
   #header-container {
     position: fixed;
     top: 0;
@@ -53,7 +155,7 @@
       }
 
       .left {
-        img {
+        picture {
           width: 32px;
           height: 32px;
         }
@@ -64,6 +166,7 @@
       }
 
       .right {
+        position: relative;
         span {
           font-size: 16px;
           position: relative;
