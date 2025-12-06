@@ -1,6 +1,15 @@
 {
-  "pages": {
+  "menu": {
     "showcase": "Showcase",
-    "constructing": "Under construction"
+    "constructing": "Under construction",
+    "language": "Switch Language"
+  },
+  "top_showcase": {
+    "hello": "Ciallo～ 👋",
+    "i_am": "I am",
+    "platforms": "Platforms"
+  },
+  "myworks": {
+    "title": "My Works"
   }
 }

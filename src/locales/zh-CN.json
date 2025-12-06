@@ -1,6 +1,15 @@
 {
-  "pages": {
+  "menu": {
     "showcase": "展示页",
-    "constructing": "更多页面建设中"
+    "constructing": "更多页面建设中",
+    "language": "切换语言"
+  },
+  "top_showcase": {
+    "hello": "你好！👋",
+    "i_am": "我是",
+    "platforms": "我的平台"
+  },
+  "myworks":{
+    "title": "我的作品"
   }
 }

@@ -25,7 +25,7 @@
 
   function handleSwitchLanguage(lang: Language) {
     console.info(`Switching language to ${lang}`);
-    $locale = lang;
+    locale.set(lang);
     localStorage.setItem("locale", lang);
   }
 </script>
@@ -38,14 +38,16 @@
         <img src={LostInLightRoundWhite} alt="" />
       </picture>
       <span
-        >一只会魔法的梨<span class="title-en">&nbsp;|&nbsp;AMagicPear</span
-        ></span
-      >
+        >{#if $locale == Language.ZH_CN}一只会魔法的梨
+        {/if}<span class="title-en"
+          >{#if $locale == Language.ZH_CN}&nbsp;|&nbsp;{/if}AMagicPear</span
+        >
+      </span>
     </div>
     <div class="right">
-      <a href="/"><span class="active">{$_("pages.showcase")}</span></a>
+      <a href="/"><span class="active">{$_("menu.showcase")}</span></a>
       <span style:color="rgba(255, 255, 255, 0.5)"
-        >{$_("pages.constructing")}</span
+        >{$_("menu.constructing")}</span
       >
       <div class="earth-icon-container">
         <img
@@ -62,7 +64,7 @@
             role="group"
             transition:fade={{ duration }}
           >
-            <h4>切换语言</h4>
+            <h4>{$_("menu.language")}</h4>
             <menu>
               <menuitem onclick={() => handleSwitchLanguage(Language.ZH_CN)}
                 >简体中文</menuitem
@@ -163,6 +165,9 @@
         font-weight: 700;
         pointer-events: none;
         user-select: none;
+        span {
+          text-align: left;
+        }
       }
 
       .right {

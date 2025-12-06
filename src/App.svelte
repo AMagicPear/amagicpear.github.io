@@ -9,6 +9,8 @@
   import { onMount } from "svelte";
   import MyWorks from "@/components/MyWorks.svelte";
   const PerryWavesPromise = import("@/components/PerryWaves.svelte");
+  import { _, locale } from "svelte-i18n";
+  import type { Language } from "./i18n";
 
   const contact = [
     {
@@ -38,7 +40,7 @@
   onMount(() => {
     import("./data/top_descriptions.json").then((strings) => {
       typed = new Typed(typedElement, {
-        strings: strings.default,
+        strings: strings.default[$locale as Language] || strings.default.en,
         typeSpeed: 90,
         backSpeed: 60,
         backDelay: 1000,
@@ -61,10 +63,12 @@
       {/await}
     </div>
     <div class="floating-element">
-      <LeftCard cardTitle="你好！👋">
-        <p>我是&nbsp;<span bind:this={typedElement}>一只会魔法的梨</span></p>
+      <LeftCard cardTitle={$_("top_showcase.hello")}>
+        <p>
+          {$_("top_showcase.i_am")}&nbsp;<span bind:this={typedElement}></span>
+        </p>
       </LeftCard>
-      <LeftCard cardTitle="我的平台">
+      <LeftCard cardTitle={$_("top_showcase.platforms")}>
         <div class="contact-list">
           {#each contact as item}
             <a href={item.link} target="_blank">
@@ -77,7 +81,7 @@
   </section>
   <section id="sub-content">
     <MyWorks />
-    <h2>网站建设中……</h2>
+    <h2>{$_("menu.constructing")}……</h2>
   </section>
 </main>
 
@@ -163,7 +167,7 @@
 
   #sub-content {
     @media screen and (min-width: 1020px) {
-      padding-inline: 12vw;
+      padding-inline: 10vw;
     }
   }
 

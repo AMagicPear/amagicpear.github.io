@@ -1,16 +1,18 @@
 <script lang="ts">
   import ChaperHeader from "./ChaperHeader.svelte";
   import CoolCard from "./CoolCard.svelte";
-  const worksPromise = import("@/data/works");
+  import worksData from "@/data/works";
+  import { _, locale } from "svelte-i18n";
+  import type { Language } from "@/i18n";
+  
+  let currentWorks = $derived(worksData[$locale as Language] || worksData["en"]);
 </script>
 
-<ChaperHeader title="我的作品" />
+<ChaperHeader title={$_("myworks.title")} />
 <div class="works-container">
-  {#await worksPromise then works}
-    {#each works.default as work}
-      <CoolCard {...work} />
-    {/each}
-  {/await}
+  {#each currentWorks as work}
+    <CoolCard {...work} />
+  {/each}
 </div>
 
 <style lang="scss">

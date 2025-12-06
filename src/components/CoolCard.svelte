@@ -82,8 +82,9 @@
 
 <style lang="scss">
   .card-container {
-    width: 300px;
-    height: 300px;
+    width: 370px;
+    max-width: 100%;
+    /* height: 300px; */
     margin: 20px;
     perspective: 1200px;
   }
@@ -117,7 +118,7 @@
   }
 
   .card-content {
-    position: absolute;
+    position: relative;
     inset: 0;
     padding: 30px;
     display: flex;
