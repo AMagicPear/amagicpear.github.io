@@ -1,0 +1,1 @@
+const e={showcase:`Showcase`,constructing:`Under construction`,language:`Switch Language`},t={hello:`Ciallo～ 👋`,i_am:`I am`,platforms:`Platforms`},n={title:`My Works`};var r={menu:e,top_showcase:t,myworks:n};export{r as default,e as menu,n as myworks,t as top_showcase};
