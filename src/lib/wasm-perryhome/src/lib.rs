@@ -130,6 +130,7 @@ impl Particle {
     }
 }
 
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
 pub struct Particles {
     data: Vec<Particle>,
@@ -137,6 +138,7 @@ pub struct Particles {
     rng: Rng,
 }
 
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
 impl Particles {
     #[wasm_bindgen(constructor)]
