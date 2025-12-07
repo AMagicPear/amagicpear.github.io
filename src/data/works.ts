@@ -57,7 +57,7 @@ const workDefinitions: WorkDefinition[] = [
     lightColor: "rgba(24, 82, 86, 0.1)",
     localized: {
       "zh-CN": {
-        cardTitle: "Echoesphere",
+        cardTitle: "回声之境",
         classify: "现场互动游戏",
         description: "NJUPT本科毕设作品。探索一种由人工智能驱动的、结合实体的按钮装置的新型游戏交互方式。"
       },
@@ -76,7 +76,7 @@ const workDefinitions: WorkDefinition[] = [
       "zh-CN": {
         cardTitle: "PCL.Proto",
         classify: "全栈应用",
-        description: "Modeled after PCL2 and PCL2-CE, providing a standardized prototype."
+        description: "本项目以PCL2（龙腾猫跃）和PCL2-CE为蓝本。旨在为各PCL分支版本提供一个标准化的原型样本。"
       },
       "en": {
         cardTitle: "PCL.Proto",
