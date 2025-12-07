@@ -11,7 +11,7 @@
 cargo install wasm-pack
 ```
 
-进入 `src/lib/wasm-perryhome` 目录，使用以下命令来编译 WebAssembly。编译后无需对文件位置进行更好，保留原样即可。
+进入 `src/lib/wasm-perryhome` 目录，使用以下命令来编译 WebAssembly。编译后无需对文件位置进行更改，保留原样即可。
 
 ```sh
 wasm-pack build --target web
