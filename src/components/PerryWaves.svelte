@@ -6,6 +6,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
 <script module lang="ts">
   import nanoflowCfg from "@/data/simplified_nanoflow.json";
+    import { isAtTopShowCase } from "@/lib/stores";
   const COUNT = nanoflowCfg.particles.length;
   import { type Particles } from "@/lib/wasm-perryhome/pkg";
 
@@ -19,12 +20,13 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
+
   let scatterStrength = 0;
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
 
   let svg: SVGSVGElement;
   let particleElements: SVGCircleElement[] = new Array(COUNT);
-  let isIntersecting = true;
+  // let isIntersecting = true;
 
   const handleMouseMove = (e: MouseEvent) => {
     const rect = svg.getBoundingClientRect();
@@ -90,11 +92,11 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
             entries.length === 1 && entries[0].target.isSameNode(svg),
           );
           if (entries[0].isIntersecting) {
-            isIntersecting = true;
+            isAtTopShowCase.set(true);
             requestAnimationFrame(animate);
           } else {
             handleMouseLeave();
-            isIntersecting = false;
+            isAtTopShowCase.set(false);
           }
         });
 
@@ -116,7 +118,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
           }
           updateParticleCoordinates();
           // 仅当处于视口时才继续请求下一帧动画
-          if (isIntersecting) {
+          if ($isAtTopShowCase) {
             requestAnimationFrame(animate);
           }
         }

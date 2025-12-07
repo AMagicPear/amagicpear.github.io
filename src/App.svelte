@@ -3,10 +3,12 @@
   import MyWorks from "@/components/MyWorks.svelte";
   import { _ } from "svelte-i18n";
   import TopShowcase from "./components/TopShowcase.svelte";
+  import EchoNotes from "./components/EchoNotes.svelte";
 </script>
 
 <PerryHeader />
-<div class="background"></div>
+<EchoNotes />
+<div class="foreground"></div>
 <main>
   <TopShowcase />
   <section id="sub-content">
@@ -20,7 +22,7 @@
 </footer>
 
 <style lang="scss">
-  .background {
+  .foreground {
     pointer-events: none;
     position: fixed;
     top: 0;

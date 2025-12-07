@@ -1,0 +1,165 @@
+<script>
+  import { isAtTopShowCase } from "@/lib/stores";
+  import { quintOut } from "svelte/easing";
+  import { draw, fly } from "svelte/transition";
+  const drawDuration = 1000;
+</script>
+
+{#if !$isAtTopShowCase}
+  <svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 1000 8000"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:space="preserve"
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"
+    transition:fly={{ y: 50, duration: 500, easing: quintOut }}
+    ><g
+      ><g
+        ><path in:draw={{ duration: drawDuration }}
+          d="M533.971,573.425c204.892,17.265 366.029,189.25 366.029,398.575c0,209.24 -161.007,381.171 -365.78,398.554"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.279,1370.596c-205.011,-17.146 -366.279,-189.186 -366.279,-398.596c0,-209.325 161.137,-381.31 366.029,-398.575"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.029,573.425c-0.02,-0.473 -0.029,-0.948 -0.029,-1.425c0,-18.765 15.235,-34 34,-34c18.765,0 34,15.235 34,34c0,0.477 -0.01,0.952 -0.029,1.425"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M533.971,573.425c-0.748,18.105 -15.683,32.575 -33.971,32.575c-18.288,0 -33.223,-14.47 -33.971,-32.575"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.279,1370.596c0.737,-18.115 15.677,-32.596 33.971,-32.596c18.281,0 33.211,14.458 33.97,32.554"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M534.22,1370.554c0.02,0.48 0.03,0.962 0.03,1.446c0,18.765 -15.235,34 -34,34c-18.765,0 -34,-15.235 -34,-34c0,-0.47 0.01,-0.938 0.029,-1.404"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /></g
+      ><path in:draw={{ duration: drawDuration }}
+        d="M500.25,697c0,0 167,237.3 167,339c0,92.17 -74.83,167 -167,167c-92.17,0 -167,-74.83 -167,-167c0,-101.7 167,-339 167,-339Z"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /><path in:draw={{ duration: drawDuration }}
+        d="M528,865c0,0 70,115.333 74,188"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /></g
+    ><g
+      ><g
+        ><path in:draw={{ duration: drawDuration }}
+          d="M533.971,2490.425c204.892,17.265 366.029,189.25 366.029,398.575c0,209.24 -161.007,381.171 -365.78,398.554"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.279,3287.596c-205.011,-17.146 -366.279,-189.186 -366.279,-398.596c0,-209.325 161.137,-381.31 366.029,-398.575"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.029,2490.425c-0.02,-0.473 -0.029,-0.948 -0.029,-1.425c0,-18.765 15.235,-34 34,-34c18.765,0 34,15.235 34,34c0,0.477 -0.01,0.952 -0.029,1.425"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M533.971,2490.425c-0.748,18.105 -15.683,32.575 -33.971,32.575c-18.288,0 -33.223,-14.47 -33.971,-32.575"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.279,3287.596c0.737,-18.115 15.677,-32.596 33.971,-32.596c18.281,0 33.211,14.458 33.97,32.554"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M534.22,3287.554c0.02,0.48 0.03,0.962 0.03,1.446c0,18.765 -15.235,34 -34,34c-18.765,0 -34,-15.235 -34,-34c0,-0.47 0.01,-0.938 0.029,-1.404"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /></g
+      ><path in:draw={{ duration: drawDuration }}
+        d="M468.773,2784.643c0,0 -46.148,-45.152 -100.72,-28.759c-65.953,19.811 -110.666,73.146 -106.453,143.702c2.79,46.724 65.494,105.762 164.543,34.203c99.049,-71.559 100.82,-115.538 165.341,-121.13c64.521,-5.592 88.265,46.068 69.92,73.629c-18.345,27.561 -69.538,4.702 -135.561,-41.776"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /><path in:draw={{ duration: drawDuration }}
+        d="M371.895,2860.643c75.259,-41.008 156.994,-124.82 221.875,-129.86c70.735,-5.494 176.456,79.219 147.369,173.94c-20.957,68.247 -112.324,113.677 -265.754,-0.257"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /><path in:draw={{ duration: drawDuration }}
+        d="M209.233,2981.601c124.478,164.106 261.177,19.722 261.177,19.722c0,0 61.844,43.619 133.82,57.916c70.043,13.913 149.681,0.058 191.255,-108.788"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /></g
+    ><g
+      ><g
+        ><path in:draw={{ duration: drawDuration }}
+          d="M533.971,4407.425c204.892,17.265 366.029,189.25 366.029,398.575c0,209.24 -161.007,381.171 -365.78,398.554"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.279,5204.596c-205.011,-17.146 -366.279,-189.186 -366.279,-398.596c0,-209.325 161.137,-381.31 366.029,-398.575"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.029,4407.425c-0.02,-0.473 -0.029,-0.948 -0.029,-1.425c0,-18.765 15.235,-34 34,-34c18.765,0 34,15.235 34,34c0,0.477 -0.01,0.952 -0.029,1.425"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M533.971,4407.425c-0.748,18.105 -15.683,32.575 -33.971,32.575c-18.288,0 -33.223,-14.47 -33.971,-32.575"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.279,5204.596c0.737,-18.115 15.677,-32.596 33.971,-32.596c18.281,0 33.211,14.458 33.97,32.554"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M534.22,5204.554c0.02,0.48 0.03,0.962 0.03,1.446c0,18.765 -15.235,34 -34,34c-18.765,0 -34,-15.235 -34,-34c0,-0.47 0.01,-0.938 0.029,-1.404"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /></g
+      ><path in:draw={{ duration: drawDuration }}
+        d="M294.044,4860.082c28.939,-30.671 71,-60.741 99.205,-59.993c96.188,2.55 136.692,56.939 212.296,58.225c38.343,0.652 63.732,-15.966 86.789,-43.728"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /><path in:draw={{ duration: drawDuration }}
+        d="M300.293,4977.98c28.939,-30.671 71,-60.741 99.205,-59.993c96.188,2.55 134.692,61.939 210.296,63.225c38.343,0.652 67.398,-8.966 90.456,-36.728"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /><path in:draw={{ duration: drawDuration }}
+        d="M291.904,4738.275c28.402,-30.71 57.448,-51.831 98.342,-57.132c51.074,-6.62 132.991,50.362 206.003,45.917c31.211,-1.9 108.091,-9.491 103.831,-68.874c-2.059,-28.702 -29.058,-53.7 -72.474,-7.68"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /></g
+    ><g
+      ><g
+        ><path in:draw={{ duration: drawDuration }}
+          d="M533.971,6324.425c204.892,17.265 366.029,189.25 366.029,398.575c0,209.24 -161.007,381.171 -365.78,398.554"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.279,7121.596c-205.011,-17.146 -366.279,-189.186 -366.279,-398.596c0,-209.325 161.137,-381.31 366.029,-398.575"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.029,6324.425c-0.02,-0.473 -0.029,-0.948 -0.029,-1.425c0,-18.765 15.235,-34 34,-34c18.765,0 34,15.235 34,34c0,0.477 -0.01,0.952 -0.029,1.425"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M533.971,6324.425c-0.748,18.105 -15.683,32.575 -33.971,32.575c-18.288,0 -33.223,-14.47 -33.971,-32.575"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M466.279,7121.596c0.737,-18.115 15.677,-32.596 33.971,-32.596c18.281,0 33.211,14.458 33.97,32.554"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /><path in:draw={{ duration: drawDuration }}
+          d="M534.22,7121.554c0.02,0.48 0.03,0.962 0.03,1.446c0,18.765 -15.235,34 -34,34c-18.765,0 -34,-15.235 -34,-34c0,-0.47 0.01,-0.938 0.029,-1.404"
+          style="fill:none;stroke:currentColor;stroke-width:25px;"
+        /></g
+      ><path in:draw={{ duration: drawDuration }}
+        d="M299.045,6702.726c79.889,5.234 127.728,13.623 385.55,-23.278"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /><path in:draw={{ duration: drawDuration }}
+        d="M327.205,6567.672c54.912,49.986 131.304,53.983 207.202,46.276c35.933,-3.649 119.474,-15.454 121.985,-67.219c1.488,-30.673 -35.934,-43.049 -64.145,-28.974"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /><path in:draw={{ duration: drawDuration }}
+        d="M298.328,6894.265c68.885,-53.215 108.376,-78.77 201.672,-97.549c45.07,-9.072 111.17,-20.46 156.436,-7.849c29.102,8.108 51.819,24.497 59.832,53.797c14.004,51.203 -41.451,84.651 -101.815,76.654"
+        style="fill:none;stroke:currentColor;stroke-width:25px;"
+      /></g
+    ><path in:draw={{ duration: drawDuration }}
+      d="M500,1406l0,1049"
+      style="fill:none;stroke:currentColor;stroke-width:25px;"
+    /><path in:draw={{ duration: drawDuration }}
+      d="M500.25,3323l0,1049"
+      style="fill:none;stroke:currentColor;stroke-width:25px;"
+    /><path in:draw={{ duration: drawDuration }}
+      d="M500,5240l0,1049"
+      style="fill:none;stroke:currentColor;stroke-width:25px;"
+    /></svg
+  >
+{/if}
+
+<style>
+  svg {
+    position: fixed;
+    left: 5vw;
+    width: 40px;
+    z-index: 0;
+    color: inherit;
+    transition: all 200ms;
+    @media (max-width: 550px) {
+      opacity: 0;
+    }
+  }
+</style>
