@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy } from "svelte";
   import LeftCard from "@/components/LeftCard.svelte";
   import EmailIcon from "@/assets/icons/email.svg";
   import GithubIcon from "@/assets/icons/github.svg";
@@ -8,11 +8,11 @@
   import Typed from "typed.js";
   import { _, locale } from "svelte-i18n";
   import type { Language } from "@/i18n";
+  import TopDescription from "@/data/top_descriptions.json";
 
-  let typed: Typed;
+  let typed: Typed | undefined = undefined;
   let typedElement: HTMLSpanElement;
   const PerryWavesPromise = import("@/components/PerryWaves.svelte");
-  const TopDescriptionPromise = import("@/data/top_descriptions.json");
 
   const contact = [
     {
@@ -37,19 +37,21 @@
     },
   ];
 
-  onMount(() => {
-    TopDescriptionPromise.then((strings) => {
-      typed = new Typed(typedElement, {
-        strings: strings.default[$locale as Language] || strings.default.en,
-        typeSpeed: 90,
-        backSpeed: 60,
-        backDelay: 1000,
-        loop: true,
-      });
+  $: typeStrings = TopDescription[$locale as Language] || TopDescription.en;
+
+  $: if (typedElement && typeStrings) {
+    typed?.destroy();
+    typed = new Typed(typedElement, {
+      strings: typeStrings,
+      typeSpeed: 90,
+      backSpeed: 60,
+      backDelay: 1000,
+      loop: true,
     });
-    return () => {
-      typed.destroy();
-    };
+  }
+
+  onDestroy(() => {
+    typed?.destroy();
   });
 </script>
 
