@@ -5,7 +5,7 @@
   import Home from "./pages/Home.svelte";
   import page from "page";
   import Essay from "./pages/Essay.svelte";
-  import { currentPage } from "./lib/stores";
+  import { currentPage } from "./lib/stores.js";
   import { onMount } from "svelte";
 
   page("/", () => {
