@@ -1,7 +1,6 @@
 <script lang="ts">
   import PerryHeader from "@/components/PerryHeader.svelte";
   import { _ } from "svelte-i18n";
-  import EchoNotes from "./components/EchoNotes.svelte";
   import Home from "./pages/Home.svelte";
   import page from "page";
   import Essay from "./pages/Essay.svelte";
@@ -39,7 +38,6 @@
 
 <PerryHeader />
 <div class="foreground"></div>
-<EchoNotes />
 <main>
   <PageComponent/>
 </main>

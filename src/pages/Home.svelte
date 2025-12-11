@@ -1,9 +1,11 @@
 <script>
+  import EchoNotes from "@/components/EchoNotes.svelte";
   import MyWorks from "@/components/MyWorks.svelte";
   import TopShowcase from "@/components/TopShowcase.svelte";
   import { _ } from "svelte-i18n";
 </script>
 
+<EchoNotes />
 <TopShowcase />
 <section id="sub-content">
   <MyWorks />
