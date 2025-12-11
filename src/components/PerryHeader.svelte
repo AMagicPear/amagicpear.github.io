@@ -4,6 +4,7 @@
   import { _, locale } from "svelte-i18n";
   import { fade } from "svelte/transition";
   import { Language } from "@/i18n";
+  import { currentPage } from "@/lib/stores";
 
   const duration = 100;
   let showTooltip = $state(false);
@@ -45,7 +46,15 @@
       </span>
     </div>
     <div class="right">
-      <a href="/"><span class="active">{$_("menu.showcase")}</span></a>
+      <a href="/"
+        ><span class:active={$currentPage === "home"}
+          >{$_("menu.showcase")}</span
+        ></a
+      >
+      <a href="/essay"
+        ><span class:active={$currentPage === "essay"}>{$_("menu.essay")}</span
+        ></a
+      >
       <span style:color="rgba(255, 255, 255, 0.5)"
         >{$_("menu.constructing")}</span
       >
@@ -175,6 +184,7 @@
         span {
           font-size: 16px;
           position: relative;
+          transition: all 0.3s ease;
           &::after {
             content: "";
             position: absolute;
@@ -185,15 +195,12 @@
             background-color: #fff;
             transform: translateX(-50%) scaleX(0);
             transform-origin: center;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           }
           &.active {
             font-weight: 600;
             &::after {
               transform: translateX(-50%) scaleX(1);
-            }
-            &:hover::after {
-              animation: expand 0.3s ease;
             }
           }
         }

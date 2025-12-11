@@ -1,20 +1,47 @@
 <script lang="ts">
   import PerryHeader from "@/components/PerryHeader.svelte";
-  import MyWorks from "@/components/MyWorks.svelte";
   import { _ } from "svelte-i18n";
-  import TopShowcase from "./components/TopShowcase.svelte";
   import EchoNotes from "./components/EchoNotes.svelte";
+  import Home from "./pages/Home.svelte";
+  import page from "page";
+  import Essay from "./pages/Essay.svelte";
+  import { currentPage } from "./lib/stores";
+  import { onMount } from "svelte";
+
+  page("/", () => {
+    console.log("[page] /");
+    currentPage.set("home");
+  });
+
+  page("/essay", () => {
+    console.log("[page] essay");
+    currentPage.set("essay");
+  });
+
+  onMount(() => {
+    page.start();
+    return () => {
+      page.stop();
+    };
+  });
+
+  const PageComponent = $derived.by(() => {
+    switch ($currentPage) {
+      case "home":
+        return Home;
+      case "essay":
+        return Essay;
+      default:
+        return Home;
+    }
+  });
 </script>
 
 <PerryHeader />
-<EchoNotes />
 <div class="foreground"></div>
+<EchoNotes />
 <main>
-  <TopShowcase />
-  <section id="sub-content">
-    <MyWorks />
-    <h2>{$_("menu.constructing")}……</h2>
-  </section>
+  <PageComponent/>
 </main>
 
 <footer>
@@ -35,12 +62,6 @@
     opacity: 0.06;
     border-radius: 0;
     z-index: 400;
-  }
-
-  #sub-content {
-    @media screen and (min-width: 1020px) {
-      padding-inline: 10vw;
-    }
   }
 
   footer {

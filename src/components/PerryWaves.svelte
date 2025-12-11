@@ -6,7 +6,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
 <script module lang="ts">
   import nanoflowCfg from "@/data/simplified_nanoflow.json";
-    import { isAtTopShowCase } from "@/lib/stores";
+  import { isAtTopShowCase } from "@/lib/stores";
   const COUNT = nanoflowCfg.particles.length;
   import { type Particles } from "@/lib/wasm-perryhome/pkg";
 
@@ -131,8 +131,8 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
     onDestroy(() => {
       // 清理事件监听
-      intersectionObserver?.disconnect();
       particles?.free();
+      intersectionObserver?.disconnect();
     });
   }
 </script>
