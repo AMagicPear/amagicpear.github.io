@@ -1,0 +1,1 @@
+const e={showcase:`展示页`,essay:`文章`,constructing:`更多页面建设中`,language:`切换语言`},t={hello:`你好！👋`,i_am:`我是`,platforms:`我的平台`},n={title:`我的作品`};var r={menu:e,top_showcase:t,myworks:n};export{r as default,e as menu,n as myworks,t as top_showcase};
