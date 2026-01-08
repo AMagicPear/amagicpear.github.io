@@ -1,7 +1,14 @@
-<script>
+<script lang="ts">
   import { marked } from "marked";
-  import doc from "./2025-07-15.md?raw";
-  $: docHTML = marked.parse(doc);
+  import { onMount } from "svelte";
+  
+  let docHTML: string;
+
+  onMount(async () => {
+    const response = await import("./2025-07-15.md?raw");
+    const doc = response.default;
+    docHTML = await marked.parse(doc);
+  });
 </script>
 
 <article>

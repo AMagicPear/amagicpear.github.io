@@ -58,8 +58,8 @@ const workDefinitions: WorkDefinition[] = [
     localized: {
       "zh-CN": {
         cardTitle: "回声之境",
-        classify: "现场互动游戏",
-        description: "NJUPT本科毕设作品。探索一种由人工智能驱动的、结合实体的按钮装置的新型游戏交互方式。"
+        classify: "展览交互系统",
+        description: "NJUPT本科毕设作品。探索一种由人工智能驱动的、结合实体的按钮装置的类游戏化的新型展览交互方式。"
       },
       "en": {
         cardTitle: "Echoesphere",
