@@ -18,7 +18,8 @@
   });
 
   onMount(() => {
-    // page.start();
+    page.start();
+    // restore the page state
     return () => {
       page.stop();
     };
