@@ -18,7 +18,7 @@
   });
 
   onMount(() => {
-    page.start();
+    // page.start();
     return () => {
       page.stop();
     };
