@@ -41,7 +41,7 @@
       font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.12em;
       color: var(--color-chartreuse);
       margin: 0;
       padding: 0;

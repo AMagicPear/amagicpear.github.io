@@ -59,7 +59,7 @@
       font-family: var(--font-display);
       font-size: 14px;
       text-transform: uppercase;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.12em;
       color: $accent;
       margin: 0 0 16px 0;
       opacity: 0.8;

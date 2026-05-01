@@ -3,7 +3,7 @@
   import MyWorks from "@/components/MyWorks.svelte";
   import TopShowcase from "@/components/TopShowcase.svelte";
   import AboutMe from "@/components/AboutMe.svelte";
-  import SkillStats from "@/components/SkillStats.svelte";
+  import ResumePanel from "@/components/ResumePanel.svelte";
   import { _ } from "svelte-i18n";
 </script>
 
@@ -12,7 +12,7 @@
 
 <section id="sub-content">
   <AboutMe />
-  <SkillStats />
+  <ResumePanel />
   <MyWorks />
 
   <div class="constructing-notice">

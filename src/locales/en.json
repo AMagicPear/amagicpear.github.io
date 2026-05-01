@@ -15,21 +15,70 @@
   },
   "about": {
     "title": "About Me",
-    "bio_1": "I'm a full-stack developer passionate about crafting digital experiences that blend aesthetics with functionality.",
-    "bio_2": "From web frontends to low-level WASM, from interactive installations to educational games — I thrive at the intersection of technology and art.",
-    "bio_3": "In my spare time, I enjoy listening to music, tinkering with Raspberry Pi, exploring networking, and occasionally making some tunes.",
+    "bio_1": "I'm a digital media technology student at NJUPT, passionate about crafting digital experiences that blend aesthetics with functionality.",
+    "bio_2": "From game development to desktop apps, from interactive installations to visual design — I thrive at the intersection of technology and art.",
+    "bio_3": "In my spare time, I'm an electronic music producer, Blender enthusiast, graphic designer, and Bilibili content creator. I live by the motto: stay curious, stay tinkering.",
     "highlight_label": "Currently Focused On",
-    "highlight_text": "AI-driven interactive experiences, WebAssembly performance optimization, bespoke toolchain development"
+    "highlight_text": "Technical Art, AI-driven interactive experiences, real-time graphics, toolchain development"
   },
-  "stats": {
-    "title": "Tech Stack",
-    "frontend": "Frontend",
-    "frontend_desc": "Svelte / React / TypeScript / SCSS",
-    "backend": "Backend & Tools",
-    "backend_desc": "Rust / Python / Node.js / WASM",
+  "education": {
+    "title": "Education",
+    "njupt": {
+      "school": "Nanjing University of Posts and Telecommunications",
+      "degree": "B.E. in Digital Media Technology",
+      "school_short": "School of Digital Media & Design Arts",
+      "period": "2022.09 – 2026.06"
+    },
+    "suda": {
+      "school": "Soochow University",
+      "degree": "M.S. in Artificial Intelligence",
+      "school_short": "School of Computer Science & Technology, NLP Research Center",
+      "period": "2026.09 – (Recommended Admission)",
+      "note": "Exempted from entrance exam"
+    }
+  },
+  "awards": {
+    "title": "Honors & Awards",
+    "items": [
+      {
+        "name": "China International College Students Innovation Competition — Gold Medal",
+        "level": "National",
+        "year": "2023"
+      },
+      {
+        "name": "Jiangsu College Students Innovation Competition — Second Prize",
+        "level": "Provincial",
+        "year": "2024"
+      },
+      {
+        "name": "China College Computer Design Contest — Third Prize",
+        "level": "National",
+        "year": "2025"
+      },
+      {
+        "name": "Jiangsu College Art Exhibition — First Prize (Choir)",
+        "level": "Provincial",
+        "year": "2023"
+      }
+    ]
+  },
+  "campus": {
+    "title": "Campus Experience",
+    "role": "Director, Visual Design Dept., NJUPT Media Center",
+    "period": "2023.06 – 2024.06",
+    "desc": "Led the graphic design team at NJUPT's Media Convergence Center. Managed the university's official WeChat and Bilibili accounts, with several posts reaching 20K+ views."
+  },
+  "skills": {
+    "title": "Skills & More",
+    "languages": "Languages",
+    "languages_desc": "C# / TypeScript / Python / Vue3",
+    "tools": "Tools & Platforms",
+    "tools_desc": "Unity / Blender / Figma / Tauri",
     "design": "Design & Media",
-    "design_desc": "Figma / Music Production / Video Editing",
-    "hardware": "Hardware & Network",
-    "hardware_desc": "Raspberry Pi / Home Networking / IoT"
+    "design_desc": "Graphic Design / Music Production / Video Editing",
+    "english": "English Proficiency",
+    "english_desc": "CET-4: 583 / CET-6: 526",
+    "traits": "Personal Traits",
+    "traits_desc": "Insatiable curiosity / Tinkerer / Steady under pressure"
   }
 }
