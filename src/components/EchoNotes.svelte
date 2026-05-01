@@ -2,7 +2,7 @@
   import { isAtTopShowCase } from "@/lib/stores";
   import { quintOut } from "svelte/easing";
   import { draw, fly } from "svelte/transition";
-  const drawDuration = 1000;
+  const drawDuration = 1200;
 </script>
 
 {#if !$isAtTopShowCase}
@@ -150,14 +150,15 @@
     left: 5vw;
     width: 40px;
     z-index: 0;
-    transition: opacity 200ms;
+    transition: opacity 300ms;
     @media (max-width: 550px) {
       opacity: 0;
     }
     path {
       fill: none;
-      stroke: currentColor;
-      stroke-width: 25px;
+      stroke: var(--color-chartreuse-dim);
+      stroke-width: 18px;
+      opacity: 0.35;
     }
   }
 </style>

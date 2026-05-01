@@ -12,5 +12,24 @@
   },
   "myworks": {
     "title": "My Works"
+  },
+  "about": {
+    "title": "About Me",
+    "bio_1": "I'm a full-stack developer passionate about crafting digital experiences that blend aesthetics with functionality.",
+    "bio_2": "From web frontends to low-level WASM, from interactive installations to educational games — I thrive at the intersection of technology and art.",
+    "bio_3": "In my spare time, I enjoy listening to music, tinkering with Raspberry Pi, exploring networking, and occasionally making some tunes.",
+    "highlight_label": "Currently Focused On",
+    "highlight_text": "AI-driven interactive experiences, WebAssembly performance optimization, bespoke toolchain development"
+  },
+  "stats": {
+    "title": "Tech Stack",
+    "frontend": "Frontend",
+    "frontend_desc": "Svelte / React / TypeScript / SCSS",
+    "backend": "Backend & Tools",
+    "backend_desc": "Rust / Python / Node.js / WASM",
+    "design": "Design & Media",
+    "design_desc": "Figma / Music Production / Video Editing",
+    "hardware": "Hardware & Network",
+    "hardware_desc": "Raspberry Pi / Home Networking / IoT"
   }
 }

@@ -2,33 +2,54 @@
   export let title: string;
 </script>
 
-<div data-aos="fade-up">
+<div data-aos="fade-up" class="chapter-header">
+  <div class="chapter-line"></div>
   <h2>{title}</h2>
+  <div class="chapter-line chapter-line-right"></div>
 </div>
 
 <style lang="scss">
-  div {
+  .chapter-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 16px;
+    gap: 20px;
+    margin: 80px 0 40px;
+    padding: 0 20px;
+
+    .chapter-line {
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        var(--color-chartreuse-dim)
+      );
+
+      &-right {
+        background: linear-gradient(
+          to left,
+          transparent,
+          var(--color-chartreuse-dim)
+        );
+      }
+    }
 
     h2 {
-      width: fit-content;
-      height: fit-content;
-      background-color: var(--color-light);
-      color: var(--color-dark);
-      padding: 0.2rem 0.8rem;
-      transition: all 0.4s ease-out;
-      border: solid 2px var(--color-dark);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: var(--color-chartreuse);
+      margin: 0;
+      padding: 0;
+      white-space: nowrap;
+      opacity: 0.7;
 
-      @media (prefers-color-scheme: dark) {
-        border: solid 2px var(--color-light);
-      }
-
-      &:hover {
-        background-color: var(--color-dark);
-        color: var(--color-light);
+      @media (prefers-color-scheme: light) {
+        color: var(--color-chartreuse-dim);
       }
     }
   }

@@ -12,5 +12,24 @@
   },
   "myworks":{
     "title": "我的作品"
+  },
+  "about": {
+    "title": "关于我",
+    "bio_1": "我是一名热爱创造的全栈开发者，专注于构建兼具美感与实用性的数字体验。",
+    "bio_2": "从Web前端到底层WASM，从交互装置到教育游戏——我享受在技术与艺术的交汇处探索新的可能性。",
+    "bio_3": "闲暇时，我喜欢听音乐、捣鼓树莓派、研究网络技术，偶尔也做点小曲子。",
+    "highlight_label": "目前关注",
+    "highlight_text": "人工智能驱动的交互体验、WebAssembly性能优化、个性化工具链构建"
+  },
+  "stats": {
+    "title": "技能栈",
+    "frontend": "前端开发",
+    "frontend_desc": "Svelte / React / TypeScript / SCSS",
+    "backend": "后端 & 工具",
+    "backend_desc": "Rust / Python / Node.js / WASM",
+    "design": "设计 & 媒体",
+    "design_desc": "Figma / 音乐制作 / 视频剪辑",
+    "hardware": "硬件 & 网络",
+    "hardware_desc": "树莓派 / 网络改造 / 智能家居"
   }
 }

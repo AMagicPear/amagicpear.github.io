@@ -18,26 +18,56 @@
   -moz-osx-font-smoothing: grayscale;
   scrollbar-width: none;
   scroll-behavior: smooth;
-  --color-dark: #181a18;
-  --color-light: #faf9f7;
+
+  /* Light mode defaults (overridden in dark mode media query) */
+  --color-deep: #1a1a16;
+  --color-paper: #f8f5ef;
+  --color-chartreuse: #6b8f1a;
+  --color-chartreuse-dim: #8aad40;
+  --color-coral: #d4523a;
+  --color-gold: #b8982e;
+  --color-surface: #f0ede4;
+  --color-surface-elevated: #ffffff;
+  --color-border: rgba(13, 13, 12, 0.1);
+  --color-text-muted: rgba(26, 26, 22, 0.5);
+  --color-chartreuse-glow: rgba(107, 143, 26, 0.1);
+
+  --font-display: alimama-shuheiti, system-ui, sans-serif;
+  --font-body: alimama-fangyuanti, system-ui, sans-serif;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+  --space-2xl: 8rem;
 
   @supports (font-variation-settings: "BEVL" 20) {
     font-family: alimama-fangyuanti;
     font-variation-settings: "BEVL" 20;
   }
 
-  @media (prefers-color-scheme: light) {
-    --color-text: var(--color-dark);
-    --color-background: var(--color-light);
-    color: var(--color-dark);
-    background-color: var(--color-light);
-  }
+  --color-text: var(--color-deep);
+  --color-background: var(--color-paper);
+  color: var(--color-text);
+  background-color: var(--color-background);
 
   @media (prefers-color-scheme: dark) {
-    --color-text: var(--color-light);
-    --color-background: var(--color-dark);
-    color: var(--color-light);
-    background-color: var(--color-dark);
+    --color-deep: #0d0d0c;
+    --color-paper: #f5f0e8;
+    --color-chartreuse: #c8ff36;
+    --color-chartreuse-dim: #8ab820;
+    --color-coral: #ff6b4a;
+    --color-gold: #e8c547;
+    --color-surface: #1a1a18;
+    --color-surface-elevated: #242420;
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-text-muted: rgba(245, 240, 232, 0.5);
+    --color-chartreuse-glow: rgba(200, 255, 54, 0.08);
+    --color-text: var(--color-paper);
+    --color-background: var(--color-deep);
+    color: var(--color-text);
+    background-color: var(--color-background);
   }
 }
 
@@ -54,6 +84,7 @@ p {
 body {
   margin: 0;
   padding: 0;
+  background-color: var(--color-background, var(--color-paper));
 }
 
 a {
@@ -61,10 +92,46 @@ a {
   text-decoration: none;
 }
 
+::selection {
+  background: var(--color-chartreuse);
+  color: #fff;
+}
+
 #app {
   text-align: center;
   scroll-behavior: smooth;
+
   h2 {
     font-size: 24px;
   }
+}
+
+/* Global noise texture overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-chartreuse-dim);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-chartreuse);
 }
