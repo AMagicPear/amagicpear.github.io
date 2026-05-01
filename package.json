@@ -11,34 +11,31 @@
     "deploy": "vite build && gh-pages -d dist"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^6.2.1",
-    "@tsconfig/svelte": "^5.0.6",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@tsconfig/svelte": "^5.0.8",
     "@types/aos": "^3.0.7",
-    "@types/node": "^25.0.0",
+    "@types/node": "^25.6.0",
     "@types/page": "^1.11.9",
     "gh-pages": "^6.3.0",
-    "sass-embedded": "^1.96.0",
-    "svelte": "^5.45.8",
-    "svelte-check": "^4.3.4",
-    "typescript": "~5.9.3",
-    "vite": "npm:rolldown-vite@^7.2.10"
+    "sass-embedded": "^1.99.0",
+    "svelte": "^5.55.5",
+    "svelte-check": "^4.4.6",
+    "typescript": "~6.0.3",
+    "vite": "^8.0.10"
   },
   "pnpm": {
-    "overrides": {
-      "vite": "npm:rolldown-vite"
-    },
     "onlyBuiltDependencies": [
       "@parcel/watcher",
       "es5-ext",
       "esbuild"
     ]
   },
-  "packageManager": "pnpm@10.25.0+sha512.5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501",
+  "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8",
   "dependencies": {
     "aos": "3.0.0-beta.6",
-    "marked": "^17.0.1",
+    "marked": "^18.0.2",
     "page": "^1.11.6",
     "svelte-i18n": "^4.0.1",
-    "typed.js": "^2.1.0"
+    "typed.js": "^3.0.0"
   }
 }
