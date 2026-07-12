@@ -76,14 +76,14 @@
     if (isEssay) {
       history.pushState({}, "", "/");
       setRoute();
-      window.scrollTo({ top: 0, behavior: "instant" });
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function goEssay() {
     history.pushState({}, "", "/essay");
     setRoute();
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function goTo(id: string) {
