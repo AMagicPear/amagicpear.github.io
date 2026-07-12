@@ -6,12 +6,9 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 
 <script module lang="ts">
   import nanoflowCfg from "@/data/simplified_nanoflow.json";
-  import { isAtTopShowCase } from "@/lib/stores";
   const COUNT = nanoflowCfg.particles.length;
   import { type Particles } from "@/lib/wasm-perryhome/pkg";
 
-  // SVG缩放因子，与CSS中的scale值保持一致
-  const scaleFactor = 1.4;
   const hasMouse = window.matchMedia("(pointer: fine)").matches;
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
@@ -22,17 +19,24 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   import { onDestroy, onMount } from "svelte";
 
   let scatterStrength = 0;
+  let isVisible = false;
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
 
   let svg: SVGSVGElement;
   let particleElements: SVGCircleElement[] = new Array(COUNT);
   // let isIntersecting = true;
 
-  const handleMouseMove = (e: MouseEvent) => {
-    const rect = svg.getBoundingClientRect();
-    // 计算原始鼠标坐标，并除以缩放因子以匹配SVG内部坐标系统
-    const cx = (e.clientX - rect.left) / scaleFactor;
-    const cy = (e.clientY - rect.top) / scaleFactor;
+  const handlePointerMove = (e: PointerEvent) => {
+    // getScreenCTM accounts for every CSS transform, viewport scale, and SVG
+    // viewBox mapping. The inverse maps a screen-space pointer precisely back
+    // into the coordinate system consumed by the WASM simulation.
+    const screenMatrix = svg.getScreenCTM();
+    if (!screenMatrix) return;
+
+    const pointer = svg.createSVGPoint();
+    pointer.x = e.clientX;
+    pointer.y = e.clientY;
+    const { x: cx, y: cy } = pointer.matrixTransform(screenMatrix.inverse());
     if (mouse.x < 0 || mouse.y < 0) {
       mouse.vx = 0;
       mouse.vy = 0;
@@ -92,11 +96,11 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
             entries.length === 1 && entries[0].target.isSameNode(svg),
           );
           if (entries[0].isIntersecting) {
-            isAtTopShowCase.set(true);
+            isVisible = true;
             requestAnimationFrame(animate);
           } else {
             handleMouseLeave();
-            isAtTopShowCase.set(false);
+            isVisible = false;
           }
         });
 
@@ -118,7 +122,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
           }
           updateParticleCoordinates();
           // 仅当处于视口时才继续请求下一帧动画
-          if ($isAtTopShowCase) {
+          if (isVisible) {
             requestAnimationFrame(animate);
           }
         }
@@ -141,8 +145,10 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   bind:this={svg}
   width={nanoflowCfg.cwidth}
   height={nanoflowCfg.cheight}
-  onmousemove={handleMouseMove}
-  onmouseleave={handleMouseLeave}
+  viewBox={`0 0 ${nanoflowCfg.cwidth} ${nanoflowCfg.cheight}`}
+  preserveAspectRatio="xMidYMid meet"
+  onpointermove={handlePointerMove}
+  onpointerleave={handleMouseLeave}
   role="presentation"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -160,20 +166,12 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 <style>
   svg {
     position: absolute;
-    top: calc(36vh - 250px);
-    right: calc(2.65vw - 395.1px);
-    scale: 1.4;
+    inset: 0;
+    width: 100%;
+    height: 100%;
 
     @media (pointer: fine) {
-      cursor: cell;
-    }
-
-    @media screen and (min-width: 1260px) {
-      right: calc(16vw - 450px);
-    }
-
-    @media screen and (max-width: 1068px) {
-      right: calc(60vw - 1007.6px);
+      cursor: crosshair;
     }
   }
 </style>
