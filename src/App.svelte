@@ -68,12 +68,13 @@
   ];
 
   function setRoute() {
-    isEssay = window.location.pathname === "/essay";
+    isEssay = window.location.pathname.replace(/\/+$/, "") === "/essay";
     menuOpen = false;
   }
 
   function goHome() {
-    if (isEssay) {
+    menuOpen = false;
+    if (isEssay || window.location.hash) {
       history.pushState({}, "", "/");
       setRoute();
     }
@@ -86,8 +87,46 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function isModifiedClick(event: MouseEvent) {
+    return (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    );
+  }
+
+  function goHomeLink(event: MouseEvent) {
+    if (isModifiedClick(event)) return;
+    event.preventDefault();
+    goHome();
+  }
+
+  function goSectionLink(event: MouseEvent, id: string) {
+    if (isModifiedClick(event)) return;
+    event.preventDefault();
+    goTo(id);
+  }
+
+  function goEssayLink(event: MouseEvent) {
+    if (isModifiedClick(event)) return;
+    event.preventDefault();
+    goEssay();
+  }
+
   function goTo(id: string) {
     goHome();
+    requestAnimationFrame(() =>
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" }),
+    );
+  }
+
+  function scrollToHash() {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
     requestAnimationFrame(() =>
       document
         .getElementById(id)
@@ -101,12 +140,20 @@
       const limit = document.documentElement.scrollHeight - window.innerHeight;
       scrollProgress = limit > 0 ? window.scrollY / limit : 0;
     };
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") menuOpen = false;
+    };
     updateProgress();
+    scrollToHash();
     window.addEventListener("scroll", updateProgress, { passive: true });
     window.addEventListener("popstate", setRoute);
+    window.addEventListener("hashchange", scrollToHash);
+    window.addEventListener("keydown", handleKeydown);
     return () => {
       window.removeEventListener("scroll", updateProgress);
       window.removeEventListener("popstate", setRoute);
+      window.removeEventListener("hashchange", scrollToHash);
+      window.removeEventListener("keydown", handleKeydown);
     };
   });
 </script>
@@ -125,20 +172,21 @@
 
 <div class="progress" style={`transform: scaleX(${scrollProgress})`}></div>
 <header class:essay-header={isEssay} class:open={menuOpen}>
-  <button class="brand" aria-label="返回首页" onclick={goHome}>
+  <a class="brand" href="/" aria-label="返回首页" onclick={goHomeLink}>
     <span class="brand-stamp">P</span>
     <span class="brand-name">Perry's playground</span>
-  </button>
+  </a>
   <button
     class="menu-button"
     aria-label="切换导航菜单"
     aria-expanded={menuOpen}
+    aria-controls="main-navigation"
     onclick={() => (menuOpen = !menuOpen)}><i></i><i></i></button
   >
-  <nav aria-label="主导航">
-    <button onclick={() => goTo("works")}>作品</button>
-    <button onclick={() => goTo("about")}>关于</button>
-    <button onclick={goEssay}>随笔</button>
+  <nav id="main-navigation" aria-label="主导航">
+    <a href="/#works" onclick={(event) => goSectionLink(event, "works")}>作品</a>
+    <a href="/#about" onclick={(event) => goSectionLink(event, "about")}>关于</a>
+    <a href="/essay" onclick={goEssayLink}>随笔</a>
     <a href="https://github.com/AMagicPear" target="_blank" rel="noreferrer"
       >GitHub ↗</a
     >
@@ -195,7 +243,12 @@
             rel="noreferrer"
           >
             <span class="card-no">0{index + 1}</span>
-            {#if work.image}<img src={work.image} alt="" />{:else}<div
+            {#if work.image}<img
+                src={work.image}
+                alt={work.name}
+                loading="lazy"
+                decoding="async"
+              />{:else}<div
                 class="music-art"
                 aria-hidden="true"
               >
@@ -245,7 +298,12 @@
     >
       <div class="about-photo">
         <div class="tape">CURRENTLY</div>
-        <img src={avatar} alt="Perry 的手绘头像" />
+        <img
+          src={avatar}
+          alt="Perry 的手绘头像"
+          loading="lazy"
+          decoding="async"
+        />
         <p>在苏州，准备开始新的学习阶段。</p>
       </div>
       <div class="about-copy">

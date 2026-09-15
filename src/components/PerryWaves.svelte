@@ -21,6 +21,8 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   let scatterStrength = 0;
   let isVisible = false;
   let mouse = { x: -1000, y: -1000, vx: 0, vy: 0, speed: 0 };
+  let animationFrame: number | undefined;
+  let disposed = false;
 
   let svg: SVGSVGElement;
   let particleElements: SVGCircleElement[] = new Array(COUNT);
@@ -80,6 +82,11 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
           nanoflowCfg.elasticityFactor,
           nanoflowCfg.maxPushForce,
         );
+        if (disposed) {
+          particles.free();
+          particles = undefined;
+          return;
+        }
         // 获取指向各个粒子位置的数组的指针，直接读取内存以免频繁复制传递造成性能开销
         const ptr = particles.positions_ptr();
         const len = particles.positions_len();
@@ -97,10 +104,14 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
           );
           if (entries[0].isIntersecting) {
             isVisible = true;
-            requestAnimationFrame(animate);
+            scheduleAnimation();
           } else {
             handleMouseLeave();
             isVisible = false;
+            if (animationFrame !== undefined) {
+              cancelAnimationFrame(animationFrame);
+              animationFrame = undefined;
+            }
           }
         });
 
@@ -114,6 +125,8 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
         // updateParticleCoordinates();
         // 动画主循环
         function animate() {
+          animationFrame = undefined;
+          if (!isVisible || disposed) return;
           if (mouse.speed > 220) {
             scatterStrength = Math.min((mouse.speed - 220) / 8, 16);
           } else {
@@ -122,18 +135,27 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
           }
           updateParticleCoordinates();
           // 仅当处于视口时才继续请求下一帧动画
-          if (isVisible) {
-            requestAnimationFrame(animate);
+          scheduleAnimation();
+        }
+        function scheduleAnimation() {
+          if (isVisible && !disposed && animationFrame === undefined) {
+            animationFrame = requestAnimationFrame(animate);
           }
         }
         intersectionObserver.observe(svg);
-        requestAnimationFrame(animate);
+        scheduleAnimation();
       } catch (e) {
         console.error("引入WebAssembly模块失败，已禁用粒子交互：", e);
       }
     });
 
     onDestroy(() => {
+      disposed = true;
+      isVisible = false;
+      if (animationFrame !== undefined) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = undefined;
+      }
       // 清理事件监听
       particles?.free();
       intersectionObserver?.disconnect();
