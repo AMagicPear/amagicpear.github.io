@@ -59,7 +59,6 @@
         onclick={(event) => { if (event.detail === 0) piece.angle += 45; }}
       ><span aria-hidden="true"></span></button>
     {/each}
-    <span class="board-caption" aria-hidden="true">形状没有标准答案。</span>
   </div>
   <div class="playground-controls">
     <p>拖一拖，转一转。<span>点击旋转 · 方向键移动</span></p>
@@ -84,7 +83,6 @@
   .triangle span { background: #f1c731; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
   .stripes span { background: repeating-linear-gradient(0deg, #262622 0 8px, transparent 8px 18px); }
   .ring span { border: 22px solid #262622; border-radius: 50%; }
-  .board-caption { position: absolute; bottom: -12px; left: 2%; font-size: 12px; transform: rotate(-90deg); transform-origin: left; pointer-events: none; }
   .playground-controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 25px 0 0; font-size: 13px; }
   .playground-controls p span { display: block; margin-top: 6px; color: #68675f; font-size: 11px; }
   .playground-controls button { padding: 10px 16px; border: 1px solid currentColor; background: #f1c731; box-shadow: 3px 3px 0 #262622; }

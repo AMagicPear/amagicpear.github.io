@@ -5,6 +5,7 @@
   import Essay from "@/pages/Essay.svelte";
   import coverMusic from "@/assets/pics/cover_netease_gpui.webp";
   import coverLauncher from "@/assets/pics/cover_pcl_proto.webp";
+  import coverPichamber from "@/assets/pics/cover_pichamber.webp";
   import avatar from "@/assets/pics/perry-avatar.webp";
   import coverPyroGenesis from "@/assets/pics/cover_PyroGenesis.webp";
   import coverEchoesphere from "@/assets/pics/cover_Echoesphere.jpeg";
@@ -29,7 +30,7 @@
       kind: "Vue / Bun / Pi Coding Agent",
       text: "把对话、文件和真正的终端放进同一个浏览器工作区，让 Pi Coding Agent 的工作过程看得见、接得上。",
       href: "https://github.com/AMagicPear/pichamber",
-      image: "",
+      image: coverPichamber,
       className: "agent-feature",
       link: "走进工作区",
     },
@@ -219,12 +220,12 @@
       </div>
     </section>
 
-    <div class="play-strip" aria-hidden="true"><span>写一点代码</span><i>●</i><span>制造一点声音</span><i>▲</i><span>让想法发生</span><i>■</i><span>保持好奇</span><i>✳</i></div>
+    <div class="play-strip" aria-hidden="true"><span>写一点代码</span><i>●</i><span>制造一点声音</span><i>▲</i><span>保持好奇</span><i>✳</i><span>保持天真</span><i>◇</i><span>追寻艺术</span><i>■</i></div>
 
     <section id="works" class="works section-shell" aria-labelledby="works-title">
       <div class="section-heading works-heading">
-        <h2 id="works-title">想法落地，<br />各有形状。</h2>
-        <p>最近在做的，是更顺手的工具，也是不一样的表达。</p>
+        <h2 id="works-title">想法<span class="ink-outline">落地<svg class="smark" viewBox="0 0 200 200" aria-hidden="true"><path d="M 16 40 L 16 6 L 52 6" /><circle cx="172" cy="26" r="22" /><path d="M 78 44 L 92 16 L 106 44 Z" fill="#e44030" stroke="none" /></svg></span>，<br />各有形状。</h2>
+        <p>最近在做的，是<span class="ink-mark">更顺手的工具</span>，也是<span class="ink-mark">不一样的表达</span>。</p>
       </div>
       <div class="feature-grid">
         {#each featuredWorks as work}
@@ -241,14 +242,6 @@
               {/if}
               {#if work.image}
                 <img src={work.image} alt={work.name + "项目画面"} loading="lazy" decoding="async" />
-              {:else}
-                <div class="agent-art" aria-hidden="true">
-                  <div class="workspace-bar"><span class="workspace-mark">π</span> pichamber <span class="workspace-caption">工作流示意</span></div>
-                  <div class="workspace-body">
-                    <div class="workspace-files"><span>workspace</span><i>src/</i><i>App.vue</i><i>README.md</i><i>package.json</i></div>
-                    <div class="workspace-conversation"><span class="agent-prompt">给想法一个工作区。</span><p>从一个念头，到可以运行的东西。</p><div class="agent-tools"><span>理解项目</span><span>编辑文件</span><span>终端验证</span></div><div class="agent-terminal"><span>~/playground</span><code>$ pichamber open</code><i></i></div></div>
-                  </div>
-                </div>
               {/if}
             </div>
           </a>
@@ -257,13 +250,13 @@
     </section>
 
     <section class="geometry-section section-shell" aria-labelledby="geometry-title">
-      <div class="geometry-copy"><h2 id="geometry-title">圆的，方的，<br />都可以。</h2><p>代码之外，也给直觉一点空间。<br />把这些形状，摆成你喜欢的样子。</p><span class="geometry-flower" aria-hidden="true">✳</span></div>
+      <div class="geometry-copy"><h2 id="geometry-title">圆的，<span class="ink-outline">方的<svg class="smark" viewBox="0 0 200 200" aria-hidden="true"><path d="M 40 30 H 160" /><path d="M 62 30 V 4 M 100 30 V 0" /><path d="M 138 30 V 4" stroke="#e44030" /></svg></span>，<br />都可以。</h2><p>代码之外，也给直觉一点空间。<br />把这些形状，摆成你喜欢的样子。</p><span class="geometry-flower" aria-hidden="true">✳</span></div>
       <GeometryPlayground />
     </section>
 
     <section class="systems section-shell" aria-labelledby="systems-title">
       <div class="section-heading">
-        <h2 id="systems-title">也在别的世界，留下过脚印。</h2>
+        <h2 id="systems-title">也在别的世界，留下过<span class="ink-outline">脚印<svg class="smark" viewBox="0 0 200 200" aria-hidden="true"><ellipse cx="100" cy="26" rx="84" ry="22" transform="rotate(-10 100 26)" /><circle cx="172" cy="6" r="6" fill="#e44030" stroke="none" /></svg></span>。</h2>
         <p>游戏、声音、智能体。不同方向的尝试，最后总会重新相遇。</p>
       </div>
       <div class="experiment-grid">
@@ -287,7 +280,7 @@
         <div class="profile-shapes" aria-hidden="true"><i></i><i></i><i></i></div>
       </div>
       <div class="about-copy">
-        <h2 id="about-title">创作的边界，<br />可以再<span>宽一点。</span></h2>
+        <h2 id="about-title">创作的<span class="ink-outline">边界<svg class="smark" viewBox="0 0 200 200" aria-hidden="true"><path class="mark-dash" d="M 30 8 H 170" /><path d="M 22 8 V 24" /><path d="M 178 8 V 24" stroke="#e44030" /></svg></span>，<br />可以再<span class="ink-mark">宽一点。</span></h2>
         <p>最近在写 Rust、做原生桌面应用，也在为 AI Agent 搭工作台。从 Unity 游戏到 Tauri 和 GPUI，我喜欢亲手试试不同的技术能带来怎样的体验。</p>
         <p>业余时间做电子音乐，学习 Blender，也在 B 站记录创作。这些看似绕远的事情，最后常常会在一个新项目里重新相遇。</p>
         <div class="about-interests"><span>写代码</span><span>做音乐</span><span>造世界</span></div>
@@ -300,7 +293,7 @@
 
     <section class="notes section-shell" aria-labelledby="notes-title">
       <div class="section-heading">
-        <h2 id="notes-title">过程，也值得记录。</h2>
+        <h2 id="notes-title">过程，也值得<span class="ink-outline">记录<svg class="smark" viewBox="0 0 200 200" aria-hidden="true"><path d="M 20 26 Q 46 2 72 26 T 124 26 T 176 22" /><path d="M 170 26 L 180 8" stroke="#e44030" /></svg></span>。</h2>
         <p>把折腾过的问题、走过的弯路，留在这里。</p>
       </div>
       <a href="/essay" class="note-entry" onclick={goEssayLink}>
@@ -313,7 +306,7 @@
 
     <section class="closing section-shell" aria-labelledby="closing-title">
       <div class="closing-glow" aria-hidden="true"></div>
-      <h2 id="closing-title">下一个有意思的想法，<br />或许从一次聊天开始。</h2>
+      <h2 id="closing-title">下一个有意思的<span class="ink-outline">想法<svg class="smark" viewBox="0 0 200 200" aria-hidden="true"><path d="M 56 4 H 144 Q 164 4 164 22 V 36 Q 164 50 144 50 H 112 L 96 64 L 96 50 H 56 Q 36 50 36 36 V 22 Q 36 4 56 4" /><circle cx="76" cy="27" r="3.5" fill="#262622" stroke="none" /><circle cx="100" cy="27" r="4.5" fill="#e44030" stroke="none" /><circle cx="124" cy="27" r="3.5" fill="#262622" stroke="none" /></svg></span>，<br />或许从一次聊天开始。</h2>
       <p>关于技术、创作，或者一个还不太确定的灵感。</p>
       <a class="button button-primary" href="mailto:hello@amagicpear.top">和我聊聊 <span aria-hidden="true">↗</span></a>
       <a class="closing-email" href="mailto:hello@amagicpear.top">hello@amagicpear.top</a>
