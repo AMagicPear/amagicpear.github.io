@@ -69,7 +69,7 @@
 
 <style lang="scss">
   .geometry-playground { width: 100%; }
-  .geometry-board { position: relative; width: 100%; aspect-ratio: 1; background-image: radial-gradient(#28282435 1px, transparent 1px); background-size: 24px 24px; }
+  .geometry-board { position: relative; width: 100%; aspect-ratio: 1; background-color: #dce8e3; background-image: radial-gradient(#28282435 1px, transparent 1px); background-size: 24px 24px; }
   .board-axis { position: absolute; background: #28282425; pointer-events: none; }
   .axis-x { width: 100%; height: 1px; top: 50%; }
   .axis-y { height: 100%; width: 1px; left: 50%; }
@@ -80,7 +80,7 @@
   .disc span { border-radius: 50%; background: #e44030; }
   .disc span::after { content: ''; display: block; width: 50%; height: 100%; border-radius: 100% 0 0 100% / 50% 0 0 50%; background: #bb3025; }
   .arch span { border-radius: 50% 50% 0 0; background: #244ad5; }
-  .arch span::after { content: ''; position: absolute; inset: 38% 30% 0; border-radius: 50% 50% 0 0; background: #f1eedf; }
+  .arch span::after { content: ''; position: absolute; inset: 38% 30% 0; border-radius: 50% 50% 0 0; background: #dce8e3; }
   .triangle span { background: #f1c731; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
   .stripes span { background: repeating-linear-gradient(0deg, #262622 0 8px, transparent 8px 18px); }
   .ring span { border: 22px solid #262622; border-radius: 50%; }

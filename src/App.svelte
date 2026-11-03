@@ -204,7 +204,7 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="hero-greeting">你好，我是 Perry</p>
-        <h1 id="hero-title"><span class="title-first">好奇心，<i aria-hidden="true">✳</i></span><span class="title-second">不必<span class="title-outline">循规</span>蹈矩。</span></h1>
+        <h1 id="hero-title"><span class="title-first">好奇心，<i aria-hidden="true">✳</i></span><span class="title-second">不必<span class="title-outline">循规<svg class="title-compass" viewBox="0 0 180 120" fill="none" aria-hidden="true"><path class="compass-arc" d="M 17 93 Q 86 126 166 84" pathLength="100" /><g class="compass-tool"><path d="M 126 16 L 111 61 M 126 16 L 151 57 M 117 43 Q 130 50 143 42 M 111 61 L 108 70 M 151 57 L 156 65" /><circle cx="126" cy="16" r="4" /></g></svg></span>蹈矩。</span></h1>
         <p class="hero-intro">
           写代码，做音乐，也创造一些不一样的互动体验。<br class="desktop-break" />
           在技术与表达之间，把想法一点点变成现实。
