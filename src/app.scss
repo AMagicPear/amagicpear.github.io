@@ -79,22 +79,20 @@ section[id] { scroll-margin-top: 110px; }
   overflow: hidden;
   display: flex;
   align-items: center;
-  padding: 125px max(64px, calc((100% - 1232px) / 2)) 100px;
-  min-height: 100dvh;
-  .hero-colors { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-  .hero-colors span { position: absolute; width: min(48vw, 680px); aspect-ratio: 1; right: -5%; top: 19%; border-radius: 50%; background: #dce4ed; }
-  .hero-colors i { position: absolute; width: 120px; height: 18px; left: -25px; bottom: 9%; transform: rotate(-35deg); background: #f1c731; }
-  .hero-waves { position: absolute; inset: 0; z-index: 0; mix-blend-mode: multiply; }
-  .hero-particle-stage { position: absolute; top: 50%; left: clamp(69%, calc(50% + 210px), 85%); width: max(1200px, 155vw); aspect-ratio: 1540 / 835; transform: translate(-50%, -50%); }
-  .hero-copy { position: relative; z-index: 1; width: min(780px, 68%); pointer-events: none; }
+  gap: 24px;
+  padding: 115px max(64px, calc((100% - 1232px) / 2)) 65px;
+  min-height: 92dvh;
+  .hero-copy { position: relative; z-index: 1; min-width: 0; pointer-events: none; }
   .hero-actions a { pointer-events: auto; }
+  .hero-art { position: absolute; inset: 0; }
+  .hero-particle-stage { position: absolute; width: 85%; height: 150%; right: -10%; top: calc(-25% + clamp(0px, 18vw - 18vh, 25vh)); }
 
   .hero-greeting { font-size: 16px; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; }
   .hero-greeting::before { content: ""; width: 24px; height: 12px; background: #e44030; border-radius: 24px 24px 0 0; }
-  h1 { font-size: clamp(68px, 8.3vw, 120px); line-height: 1.18; letter-spacing: -.065em; font-weight: 800; }
+  h1 { font-size: 84px; line-height: 1.18; letter-spacing: 0; font-weight: 800; }
   .title-first { display: flex; align-items: center; gap: 20px; }
   .title-first i { color: #e44030; font: normal .8em Arial, sans-serif; }
-  .title-second { display: block; margin-top: 12px; font-size: .68em; letter-spacing: -.025em; white-space: nowrap; }
+  .title-second { display: block; margin-top: 12px; font-size: .68em; letter-spacing: 0; white-space: nowrap; }
   .title-outline { color: transparent; -webkit-text-stroke: 1.5px #262622; }
   .hero-intro { margin-top: 35px; color: #50544f; font-size: 16px; line-height: 1.95; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 27px; }
@@ -395,8 +393,7 @@ section[id] { scroll-margin-top: 110px; }
   .site-header { width: calc(100% - 48px); }
   #main-navigation { gap: 22px; }
   .hero { padding-inline: 32px; gap: 24px; }
-  .hero h1 { font-size: clamp(64px, 9vw, 80px); }
-  .hero .hero-copy { width: 76%; }
+  .hero h1 { font-size: 64px; }
   .geometry-section { gap: 40px; }
   .feature-card.music-feature { grid-template-columns: 1fr; }
   .feature-card.music-feature .card-visual { margin: 0 28px; }
@@ -447,20 +444,19 @@ section[id] { scroll-margin-top: 110px; }
     .menu-button i:last-child { transform: translateY(-3.5px) rotate(-45deg); }
   }
   .hero {
-    padding: 95px 24px 82px;
-    min-height: 100dvh;
+    gap: 0;
+    padding: 115px 24px 70px;
+    min-height: 92dvh;
     .hero-greeting { margin-bottom: 20px; font-size: 14px; }
-    h1 { font-size: clamp(51px, 13vw, 76px); }
-    .hero-copy { width: 100%; }
+    h1 { font-size: 48px; }
     .title-second { font-size: .63em; margin-top: 15px; }
     .title-outline { -webkit-text-stroke-width: 1px; }
-    .title-first { gap: 10px; }
-    .hero-colors span { width: 85vw; right: -40%; top: 17%; }
-    .hero-colors i { width: 80px; }
+    .title-first { gap: 10px; white-space: nowrap; }
+    .title-first i { font-size: .65em; }
     .hero-intro { font-size: 13px; margin-top: 22px; }
     .hero-actions { margin-top: 22px; }
-    .hero-particle-stage { top: 52%; }
-    .hero-waves { opacity: .42; }
+    .hero-actions .button { padding-inline: 12px; gap: 8px; }
+    .hero-particle-stage { width: 155%; height: 125%; right: -48%; top: -7%; }
   }
   .play-strip { margin-block: 10px 35px; gap: 20px; padding: 13px 20px; justify-content: flex-start; }
   .play-strip i { font-size: 20px; }

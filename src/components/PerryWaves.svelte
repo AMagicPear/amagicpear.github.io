@@ -134,6 +134,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
             scatterStrength *= 0.9;
           }
           updateParticleCoordinates();
+          mouse.speed *= 0.9;
           // 仅当处于视口时才继续请求下一帧动画
           scheduleAnimation();
         }
@@ -167,7 +168,7 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   bind:this={svg}
   width={nanoflowCfg.cwidth}
   height={nanoflowCfg.cheight}
-  viewBox={`0 0 ${nanoflowCfg.cwidth} ${nanoflowCfg.cheight}`}
+  viewBox="480 70 580 750"
   preserveAspectRatio="xMidYMid meet"
   onpointermove={handlePointerMove}
   onpointerleave={handleMouseLeave}
@@ -175,16 +176,17 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   xmlns="http://www.w3.org/2000/svg"
 >
   <defs>
-    <linearGradient id="perry-particle-spectrum" gradientUnits="userSpaceOnUse" x1="0" y1="140" x2="0" y2="710">
+    <linearGradient id="perry-particle-spectrum" gradientUnits="userSpaceOnUse" x1="530" y1="120" x2="970" y2="760">
       <stop offset="0%" stop-color="#e44030" />
-      <stop offset="38%" stop-color="#244ad5" />
-      <stop offset="67%" stop-color="#244ad5" />
+      <stop offset="32%" stop-color="#e44030" />
+      <stop offset="48%" stop-color="#244ad5" />
+      <stop offset="78%" stop-color="#244ad5" />
       <stop offset="100%" stop-color="#27836b" />
     </linearGradient>
   </defs>
   {#each nanoflowCfg.particles as particle, index}
     <circle
-      r={particle.size}
+      r={particle.size * (index % 11 === 0 ? 1.6 : 1.1)}
       fill="url(#perry-particle-spectrum)"
       bind:this={particleElements[index]}
       cx={particle.x}

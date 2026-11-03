@@ -202,8 +202,6 @@
 {:else}
   <main id="main-content">
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-colors" aria-hidden="true"><span></span><i></i></div>
-      <div class="hero-waves" aria-hidden="true"><div class="hero-particle-stage"><PerryWaves /></div></div>
       <div class="hero-copy">
         <p class="hero-greeting">你好，我是 Perry</p>
         <h1 id="hero-title"><span class="title-first">好奇心，<i aria-hidden="true">✳</i></span><span class="title-second">不必<span class="title-outline">循规</span>蹈矩。</span></h1>
@@ -216,8 +214,9 @@
           <a class="button button-secondary" href="https://github.com/AMagicPear" target="_blank" rel="noreferrer">访问 GitHub <span aria-hidden="true">↗</span></a>
         </div>
       </div>
-
-
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-particle-stage"><PerryWaves /></div>
+      </div>
     </section>
 
     <div class="play-strip" aria-hidden="true"><span>写一点代码</span><i>●</i><span>制造一点声音</span><i>▲</i><span>让想法发生</span><i>■</i><span>保持好奇</span><i>✳</i></div>
