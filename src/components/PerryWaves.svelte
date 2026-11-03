@@ -174,10 +174,18 @@ Modified from [NanoFlow](https://github.com/ZTMYO/NanoFlow)
   role="presentation"
   xmlns="http://www.w3.org/2000/svg"
 >
+  <defs>
+    <linearGradient id="perry-particle-spectrum" gradientUnits="userSpaceOnUse" x1="0" y1="140" x2="0" y2="710">
+      <stop offset="0%" stop-color="#e44030" />
+      <stop offset="38%" stop-color="#244ad5" />
+      <stop offset="67%" stop-color="#244ad5" />
+      <stop offset="100%" stop-color="#27836b" />
+    </linearGradient>
+  </defs>
   {#each nanoflowCfg.particles as particle, index}
     <circle
       r={particle.size}
-      fill={`rgb(${particle.color.join(",")})`}
+      fill="url(#perry-particle-spectrum)"
       bind:this={particleElements[index]}
       cx={particle.x}
       cy={particle.y}

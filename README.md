@@ -31,3 +31,12 @@ wasm-pack build --target web
 - [NanoFlow](https://github.com/ZTMYO/NanoFlow)
 - [Alibaba Mama FangYuanTi VF](https://www.alibabafonts.com/)
 - [WebAssembly](https://webassembly.org/)
+
+## Project showcase sources
+
+Project descriptions were checked against the public repositories on 2026-11-03.
+The showcase is curated in `src/App.svelte`; it does not fetch GitHub at runtime.
+
+- `cover_netease_gpui.webp`: [netease-music-gpui README screenshot](https://github.com/AMagicPear/netease-music-gpui/blob/main/docs/images/screenshot.png), resized to WebP.
+- `cover_pcl_proto.webp`: [PCL.Proto public website](https://www.amagicpear.top/PCL.Proto/), launcher preview captured on 2026-11-03.
+- The pichamber artwork is a workflow illustration, not an application screenshot. Its description follows the [public README](https://github.com/AMagicPear/pichamber).
