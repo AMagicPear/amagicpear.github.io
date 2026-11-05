@@ -1,19 +1,66 @@
 <script lang="ts">
-  import { marked } from "marked";
-  import articleSource from "./2025-07-15.md?raw";
+  import type { Post } from "@/data/posts";
+  import { renderMarkdown } from "@/lib/markdown";
 
-  let { onBack }: { onBack: () => void } = $props();
-  const articleHtml = marked.parse(articleSource) as string;
+  let {
+    post,
+    others = [],
+    onHome,
+    onIndex,
+    onOpen,
+  }: {
+    post: Post;
+    others?: Post[];
+    onHome: () => void;
+    onIndex: () => void;
+    onOpen: (slug: string) => void;
+  } = $props();
+
+  const html = $derived(renderMarkdown(post.body));
+
+  function open(event: MouseEvent, slug: string) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    onOpen(slug);
+  }
 </script>
 
 <article class="essay">
+  <div class="essay-nav">
+    <button class="back-link" onclick={onHome}>← 返回主页</button>
+    <button class="back-link" onclick={onIndex}>全部随笔</button>
+  </div>
   <header class="essay-intro">
-    <button class="back-link" onclick={onBack}>← 返回主页</button>
-    <p class="essay-kicker">折腾记录 / 家庭网络</p>
-    <p class="essay-date">2025 年 7 月 15 日</p>
-    <h1>有了树莓派以后，<br />我是如何改造家里的网络的？</h1>
-    <p class="essay-lead">从 mihomo 的 TUN 模式，到路由器、交换机和树莓派各自该待在哪里。这是一篇关于把全屋网络重新理顺的折腾记录。</p>
+    <p class="essay-kicker">{post.kicker}</p>
+    <p class="essay-date"><time datetime={post.datetime}>{post.date}</time></p>
+    <h1>{post.title}</h1>
+    <p class="essay-lead">{post.lead}</p>
   </header>
   <div class="essay-rule"></div>
-  <div class="essay-body">{@html articleHtml}</div>
+  <div class="essay-body">{@html html}</div>
+
+  {#if post.source || others.length}
+    <footer class="essay-footer">
+      {#if post.source}
+        <p class="essay-source">
+          原载于 <a href={post.source.href} target="_blank" rel="noreferrer">{post.source.label} <span aria-hidden="true">↗</span></a>
+        </p>
+      {/if}
+      {#if others.length}
+        <div class="essay-more">
+          <p class="essay-footer-label">接着读</p>
+          <ul>
+            {#each others as item}
+              <li>
+                <a href={`/essay/${item.slug}`} onclick={(event) => open(event, item.slug)}>
+                  <span class="essay-more-title">{item.title}</span>
+                  <span class="essay-more-meta">{item.kicker} · {item.date}</span>
+                </a>
+              </li>
+            {/each}
+          </ul>
+        </div>
+      {/if}
+    </footer>
+  {/if}
 </article>
