@@ -395,7 +395,7 @@
         <h2 id="experience-title">做过的事，<span class="ink-outline">按时间</span>排一排。</h2>
         <div class="experience-aside">
           <p>从数字媒体技术到人工智能，从课程作业到跑在服务器和展厅里的东西。<br class="desktop-break" />简历上的每一行，背后都是一段可以展开的时间。</p>
-          <a class="button button-secondary" href="/resume.pdf" target="_blank" rel="noreferrer">PDF 版简历 <span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="/resume.pdf?v=2026-11" target="_blank" rel="noreferrer">PDF 版简历 <span aria-hidden="true">↗</span></a>
         </div>
       </div>
 
