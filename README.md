@@ -50,4 +50,3 @@ The showcase is curated in `src/App.svelte`; it does not fetch GitHub at runtime
 - `cover_netease_gpui.webp`: user-provided application screenshot, resized to WebP.
 - `cover_pcl_proto.webp`: user-provided launcher screenshot, converted to WebP.
 - The pichamber artwork is a workflow illustration, not an application screenshot. Its description follows the [public README](https://github.com/AMagicPear/pichamber).
-- Education, internship, patents, skills, awards and current focus follow the résumé `沈立-简历1105.pdf`; a copy is served at `/resume.pdf` and linked from the experience section.

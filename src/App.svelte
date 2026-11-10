@@ -116,34 +116,6 @@
     },
   ];
 
-  const education = [
-    {
-      school: "苏州大学",
-      period: "2026.09 — 至今",
-      datetime: "2026-09",
-      degree: "人工智能 · 硕士研究生",
-      note: "计算机科学与技术学院 · NLP 研究中心（导师 王晶晶）",
-    },
-    {
-      school: "南京邮电大学",
-      period: "2022.09 — 2026.06",
-      datetime: "2022-09",
-      degree: "数字媒体技术 · 本科",
-      note: "数字媒体与设计艺术学院",
-    },
-  ];
-
-  const skills = [
-    {
-      label: "熟练运用",
-      items: ["Python", "Blender", "ComfyUI", "Unity", "GitHub 开源协作", "Vue3"],
-    },
-    {
-      label: "接触过",
-      items: ["三维重建", "电子音乐编曲", "平面设计", "摄影", "合唱", "Rust", "Coding Agent", "…"],
-    },
-  ];
-
   function followPointer(node: HTMLElement) {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     function move(event: PointerEvent) {
@@ -285,7 +257,6 @@
   >
   <nav id="main-navigation" aria-label="主导航">
     <a href="/#works" onclick={(event) => goSectionLink(event, "works")}>作品</a>
-    <a href="/#experience" onclick={(event) => goSectionLink(event, "experience")}>经历</a>
     <a href="/#about" onclick={(event) => goSectionLink(event, "about")}>关于</a>
     <a href="/essay" aria-current={isEssay ? "page" : undefined} onclick={goEssayLink}>随笔</a>
     <a class="nav-github" href="https://github.com/AMagicPear" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
@@ -389,87 +360,6 @@
       </a>
     </section>
 
-    <section id="experience" class="experience section-shell" aria-labelledby="experience-title">
-      <p class="section-kicker">RESUME · 2026<svg class="kicker-clock" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M 12 6.5 V 12 L 16 14.5" /></svg></p>
-      <div class="experience-head">
-        <h2 id="experience-title">做过的事，<span class="ink-outline">按时间</span>排一排。</h2>
-        <div class="experience-aside">
-          <p>从数字媒体技术到人工智能，从课程作业到跑在服务器和展厅里的东西。<br class="desktop-break" />简历上的每一行，背后都是一段可以展开的时间。</p>
-          <a class="button button-secondary" href="/resume.pdf?v=2026-11" target="_blank" rel="noreferrer">PDF 版简历 <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-
-      <div class="expectation-panel">
-        <div class="expectation-label"><span>求职意向</span><small>EXPECTATION</small></div>
-        <div class="expectation-body">
-          <p class="expectation-title">AIGC 算法研发 <span>实习</span></p>
-          <ul class="expectation-tags">
-            <li>AIGC Agent</li><li>多模态</li><li>视觉</li><li>3D</li><li>动作</li><li>AI 工具</li>
-          </ul>
-        </div>
-        <span class="expectation-star" aria-hidden="true">✳</span>
-      </div>
-
-      <div class="resume-grid">
-        <section class="resume-block" aria-labelledby="education-title">
-          <h3 id="education-title">教育经历 <small>EDUCATION</small></h3>
-          <ol class="timeline">
-            {#each education as item}
-              <li>
-                <div class="timeline-head"><strong>{item.school}</strong><time datetime={item.datetime}>{item.period}</time></div>
-                <p class="timeline-role">{item.degree}</p>
-                <p class="timeline-note">{item.note}</p>
-              </li>
-            {/each}
-          </ol>
-          <p class="edu-note">本科读数字媒体技术，课程和项目大多绕着图像、交互和游戏；研究生进 NLP 研究中心，开始和点云、视觉语言模型打交道。</p>
-        </section>
-
-        <section class="resume-block internship" aria-labelledby="internship-title">
-          <h3 id="internship-title">实习经历 <small>INTERNSHIP</small></h3>
-          <ol class="timeline">
-            <li>
-              <div class="timeline-head"><strong>苏州明新智算科技有限公司</strong><time datetime="2025-10">2025.10 — 2026.05</time></div>
-              <p class="timeline-role">Python · 大模型部署 · 模型评测</p>
-              <p class="timeline-text">一家面向建筑行业的初创公司，想做 CAD 图纸的智能解析和算量，再一键出 BIM。我去的时候产品还在预研，所以能坐进比较核心的技术讨论里。</p>
-              <ul class="brief-list">
-                <li>在 Linux 服务器上用 SGLang 和 vLLM 部署 Qwen3.5 的不同规格</li>
-                <li>在多种公开 VLM 和公司自研的全景分割模型上，评测建筑图纸划分、图例识别匹配任务</li>
-              </ul>
-              <div class="patents">
-                <p class="mini-label">专利 · 发明人</p>
-                <ul>
-                  <li>《一种 DXF 格式 CAD 图纸的墙体识别方法及系统》<em>已受理</em></li>
-                  <li>《基于三段视觉智能体递归的工程图纸子图划分系统》</li>
-                </ul>
-              </div>
-            </li>
-          </ol>
-        </section>
-      </div>
-
-      <section class="skills-block" aria-labelledby="skills-title">
-        <h3 id="skills-title">技能图谱 <small>SKILLS</small></h3>
-        {#each skills as group}
-          <div class="skill-line">
-            <span class="skill-k">{group.label}</span>
-            <ul class="chips">
-              {#each group.items as item}<li>{item}</li>{/each}
-            </ul>
-          </div>
-        {/each}
-        <div class="skill-line">
-          <span class="skill-k">其他奖项</span>
-          <ul class="award-list">
-            <li><strong>中国国际大学生创新大赛高教主赛道金奖</strong><time datetime="2023">2023</time></li>
-            <li><strong>江苏省第七届大学生艺术展演（合唱）甲组一等奖</strong><time datetime="2023">2023</time></li>
-          </ul>
-        </div>
-        <p class="skills-more">更多个人开源项目见 <a href="https://github.com/AMagicPear" target="_blank" rel="noreferrer">github.com/AMagicPear <span aria-hidden="true">↗</span></a></p>
-      </section>
-
-    </section>
-
     <section id="about" class="about section-shell" aria-labelledby="about-title">
       <div class="about-profile">
         <div class="portrait-frame"><img src={avatar} alt="Perry 的手绘头像" loading="lazy" decoding="async" width="240" height="240" /></div>
@@ -486,7 +376,6 @@
         <div class="about-interests"><span>写代码</span><span>做音乐</span><span>造世界</span></div>
         <div class="about-contact">
           <a href="mailto:job@amagicpear.top"><span>邮箱</span>job@amagicpear.top</a>
-          <a href="tel:+8617714095162"><span>电话</span>17714095162</a>
           <a href="https://amagicpear.top" target="_blank" rel="noreferrer"><span>主页</span>amagicpear.top</a>
           <a href="https://github.com/AMagicPear" target="_blank" rel="noreferrer"><span>GitHub</span>github.com/AMagicPear</a>
         </div>
